@@ -25,10 +25,6 @@ class Countdown extends Component {
     upperNext: 0,
   };
 
-  playAnimation = (time, position) => {
-    this.setState(prevState => {});
-  };
-
   /*
   addSecond = () => {
     const seconds = this.state.seconds;
@@ -91,24 +87,27 @@ class Countdown extends Component {
   subtractSecond = () => {
     const seconds = this.state.seconds;
     const animations = this.state.animations;
+    this.resetAnimations();
 
     seconds[1] -= 1;
+    animations.seconds[1] = true;
 
     if (seconds[1] < 0) {
       seconds[0] -= 1;
       seconds[1] = 9;
-      animations.seconds[1] = true;
     }
 
-    if (seconds[0] > 5) {
-      seconds[0] = 0;
+    if (seconds[0] < 0) {
+      seconds[0] = 5;
       animations.seconds[0] = true;
     }
 
-    this.setState(prevstate => ({
-      seconds,
-      animations,
-    }));
+    this.setState(prevstate => {
+      return {
+        seconds,
+        animations,
+      };
+    });
   };
 
   getNext = state => {
@@ -153,7 +152,7 @@ class Countdown extends Component {
     setInterval(this.subtractSecond, 1000);
   }
 
-  resetAnimations() {
+  resetAnimations = () => {
     this.setState((state, props) => {
       return {
         animations: {
@@ -164,7 +163,7 @@ class Countdown extends Component {
         },
       };
     });
-  }
+  };
 
   isAnimationOn = state => {
     const times = Object.keys(state.animations);
@@ -172,12 +171,6 @@ class Countdown extends Component {
       return state.animations[time][0] || state.animations[time][1];
     });
   };
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.isAnimationOn(prevState)) {
-      this.resetAnimations();
-    }
-  }
 
   render() {
     return (
@@ -187,28 +180,6 @@ class Countdown extends Component {
             this.state.animations.seconds[1] ? 'play' : ''
           }`}
         >
-          <ul className="flip">
-            <li className="before">
-              <div className="up">
-                <div className="shadow" />
-                <div className="inn">{this.state.seconds[1]}</div>
-              </div>
-              <div className="down">
-                <div className="shadow" />
-                <div className="inn">{this.state.seconds[1]}</div>
-              </div>
-            </li>
-            <li className="active">
-              <div className="up">
-                <div className="shadow" />
-                <div className="inn">{this.getPrev(this.state)}</div>
-              </div>
-              <div className="down">
-                <div className="shadow" />
-                <div className="inn">{this.getPrev(this.state)}</div>
-              </div>
-            </li>
-          </ul>
           <ul className="flip">
             <li className="before">
               <div className="up">
