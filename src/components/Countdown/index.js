@@ -7,19 +7,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-
-import {
-  Wrapper,
-  Number,
-  Up,
-  Down,
-  ShadowUp,
-  ShadowDown,
-  Inner,
-  NumberWrapper,
-  UpAnim,
-  DownAnim,
-} from './styles';
+import './styles.css';
 
 class Countdown extends Component {
   state = {
@@ -29,7 +17,17 @@ class Countdown extends Component {
     seconds: 9,
   };
 
-  updateSecond = () => {};
+  updateSecond = () => {
+    this.resetAnimations();
+    this.setState(prevState => {
+      return {
+        animations: {
+          seconds: [false, true],
+        },
+        seconds: prevState.seconds - 1,
+      };
+    });
+  };
 
   getSeconds = () => {
     return [
@@ -39,8 +37,27 @@ class Countdown extends Component {
   };
 
   getPrevSeconds = () => {
-    const secs = this.state.seconds - 1;
+    let secs = this.state.seconds - 1;
+    if (secs < 0) {
+      secs = 9;
+    }
     return [Math.floor((secs / 10) % 10), Math.floor(secs % 10)];
+  };
+
+  getNextSeconds = () => {
+    let secs = this.state.seconds + 1;
+    if (secs > 9) {
+      secs = 0;
+    }
+    return [Math.floor((secs / 10) % 10), Math.floor(secs % 10)];
+  };
+
+  resetAnimations = () => {
+    this.setState({
+      animations: {
+        seconds: [false, false],
+      },
+    });
   };
 
   componentDidMount() {
@@ -48,26 +65,32 @@ class Countdown extends Component {
   }
   render() {
     return (
-      <Wrapper>
-        <Number>
-          <NumberWrapper>
-            <UpAnim>
-              <Inner>{this.getSeconds()[1]}</Inner>
-            </UpAnim>
-            <Up>
-              <ShadowUp />
-              <Inner>2</Inner>
-            </Up>
-            <DownAnim>
-              <Inner>2</Inner>
-            </DownAnim>
-            <Down>
-              <ShadowDown />
-              <Inner>{this.getSeconds()[1]}</Inner>
-            </Down>
-          </NumberWrapper>
-        </Number>
-      </Wrapper>
+      <div className="flipclock-wrapper">
+        <div className="number">
+          <div className="number-wrapper">
+            {this.state.animations.seconds[1] && (
+              <React.Fragment>
+                <div className="up flipUp">
+                  <div className="shadow" />
+                  <div className="inner">{this.getNextSeconds()[1]}</div>
+                </div>
+                <div className="down flipDown">
+                  <div className="shadow" />
+                  <div className="inner">{this.getSeconds()[1]}</div>
+                </div>
+              </React.Fragment>
+            )}
+            <div className="up">
+              <div className="shadow" />
+              <div className="inner">{this.getSeconds()[1]}</div>
+            </div>
+            <div className="down">
+              <div className="shadow" />
+              <div className="inner">{this.getNextSeconds()[1]}</div>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 }
