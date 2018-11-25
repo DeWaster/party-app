@@ -1,8 +1,7 @@
-/* This component is based on codepen by Adam Ilter
+/* This component is based (well... at least animations) on codepen by Adam Ilter
  * https://codepen.io/ademilter/pen/czIGo
  *
- * It's working but relies on pretty stupid state changes.
- * I'll refactor this later and create own component library of it
+ * It's horrible code... way too much state changes and arrays. But it works
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
