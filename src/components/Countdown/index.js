@@ -13,23 +13,44 @@ class Countdown extends Component {
     animations: {
       seconds: [false, false],
       minutes: [false, false],
+      hours: [false, false],
+      days: [false, false],
     },
     seconds: [0, 3],
-    minutes: [1, 0],
+    minutes: [0, 0],
+    hours: [0, 0],
+    days: [0, 0],
     untouched: {
       minutes: [true, true],
       seconds: [true, true],
+      hours: [true, true],
+      days: [true, true],
     },
   };
 
+  isTimeEnded = () => {
+    const times = this.state.seconds.concat(
+      this.state.minutes,
+      this.state.hours,
+      this.state.days
+    );
+    return times.every(t => t === 0);
+  };
   subtrackSecond = () => {
     this.resetAnimations('seconds', 1);
     let second = this.state.seconds[1];
     second -= 1;
 
     if (second < 0) {
-      this.subtrackTenSecond();
-      second = 9;
+      if (this.isTimeEnded()) {
+        alert('BOOM!');
+        window.clearInterval(this.secondInterval);
+        second = 0;
+        return;
+      } else {
+        this.subtrackTenSecond();
+        second = 9;
+      }
     }
     this.setState(prevState => {
       return {
@@ -103,6 +124,7 @@ class Countdown extends Component {
     minute -= 1;
 
     if (minute < 0) {
+      this.subtrackHour();
       minute = 5;
     }
     this.setState(prevState => {
@@ -116,6 +138,107 @@ class Countdown extends Component {
         untouched: {
           ...prevState.untouched,
           minutes: [false, prevState.untouched.minutes[1]],
+        },
+      };
+    });
+  };
+
+  subtrackHour = () => {
+    this.resetAnimations('hours', 1);
+    let hour = this.state.hours[1];
+    hour -= 1;
+
+    if (hour < 0) {
+      this.subtrackTenHours();
+      hour = 3;
+    }
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        animations: {
+          ...prevState.animations,
+          hours: [prevState.animations.hours[0], true],
+        },
+        hours: [prevState.hours[0], hour],
+        untouched: {
+          ...prevState.untouched,
+          hours: [prevState.untouched.hours[0], false],
+        },
+      };
+    });
+  };
+
+  subtrackTenHours = () => {
+    this.resetAnimations('hours', 0);
+    let hour = this.state.hours[0];
+    let secondHour = this.state.hours[1];
+    hour -= 1;
+
+    if (hour < 0) {
+      hour = 2;
+      secondHour = 4;
+      this.subtrackDay();
+    }
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        animations: {
+          ...prevState.animations,
+          hours: [true, prevState.animations.hours[1]],
+        },
+        hours: [hour, secondHour],
+        untouched: {
+          ...prevState.untouched,
+          hours: [false, prevState.untouched.hours[1] !== secondHour],
+        },
+      };
+    });
+  };
+
+  subtrackDay = () => {
+    this.resetAnimations('days', 1);
+    let day = this.state.days[1];
+    day -= 1;
+
+    if (day < 0) {
+      this.subtrackTenDays();
+      day = 9;
+    }
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        animations: {
+          ...prevState.animations,
+          days: [prevState.animations.days[0], true],
+        },
+        days: [prevState.days[0], day],
+        untouched: {
+          ...prevState.untouched,
+          days: [prevState.untouched.days[0], false],
+        },
+      };
+    });
+  };
+
+  subtrackTenDays = () => {
+    this.resetAnimations('days', 0);
+    let day = this.state.days[0];
+    day -= 1;
+
+    if (day < 0) {
+      day = 0;
+    }
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        animations: {
+          ...prevState.animations,
+          days: [true, prevState.animations.days[1]],
+        },
+        days: [day, prevState.days[1]],
+        untouched: {
+          ...prevState.untouched,
+          days: [false, prevState.untouched.days[1]],
         },
       };
     });
@@ -137,6 +260,22 @@ class Countdown extends Component {
     return twos;
   };
 
+  getNextHourOne = () => {
+    let twos = this.state.hours[1] + 1;
+    if (twos > 3) {
+      twos = 0;
+    }
+    return twos;
+  };
+
+  getNextHourTwo = () => {
+    let twos = this.state.hours[0] + 1;
+    if (twos > 2) {
+      twos = 0;
+    }
+    return twos;
+  };
+
   resetAnimations = (name, level) => {
     const animations = { ...this.state.animations };
     animations[name][level] = false;
@@ -146,12 +285,126 @@ class Countdown extends Component {
   };
 
   componentDidMount() {
-    setInterval(this.subtrackSecond, 1000);
+    this.secondInterval = setInterval(this.subtrackSecond, 1000);
   }
 
   render() {
     return (
       <div className="flipclock-wrapper">
+        {/* DAYS */}
+        <div className="number">
+          <div className="number-wrapper">
+            {this.state.animations.days[0] && (
+              <React.Fragment>
+                <div className="up flipUp">
+                  <div className="shadow" />
+                  <div className="inner">{this.getNextBaseTwo('days')}</div>
+                </div>
+                <div className="down flipDown">
+                  <div className="shadow" />
+                  <div className="inner">{this.state.days[0]}</div>
+                </div>
+              </React.Fragment>
+            )}
+            <div className="up">
+              <div className="shadow" />
+              <div className="inner">{this.state.days[0]}</div>
+            </div>
+            <div className="down">
+              <div className="shadow" />
+              <div className="inner">
+                {this.state.untouched.days[0]
+                  ? this.state.days[0]
+                  : this.getNextBaseTwo('days')}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="number">
+          <div className="number-wrapper">
+            {this.state.animations.days[1] && (
+              <React.Fragment>
+                <div className="up flipUp">
+                  <div className="shadow" />
+                  <div className="inner">{this.getNextBaseOne('days')}</div>
+                </div>
+                <div className="down flipDown">
+                  <div className="shadow" />
+                  <div className="inner">{this.state.days[1]}</div>
+                </div>
+              </React.Fragment>
+            )}
+            <div className="up">
+              <div className="shadow" />
+              <div className="inner">{this.state.days[1]}</div>
+            </div>
+            <div className="down">
+              <div className="shadow" />
+              <div className="inner">
+                {this.state.untouched.days[1]
+                  ? this.state.days[1]
+                  : this.getNextBaseOne('days')}
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* HOURS */}
+        <div className="number">
+          <div className="number-wrapper">
+            {this.state.animations.hours[0] && (
+              <React.Fragment>
+                <div className="up flipUp">
+                  <div className="shadow" />
+                  <div className="inner">{this.getNextHourTwo()}</div>
+                </div>
+                <div className="down flipDown">
+                  <div className="shadow" />
+                  <div className="inner">{this.state.hours[0]}</div>
+                </div>
+              </React.Fragment>
+            )}
+            <div className="up">
+              <div className="shadow" />
+              <div className="inner">{this.state.hours[0]}</div>
+            </div>
+            <div className="down">
+              <div className="shadow" />
+              <div className="inner">
+                {this.state.untouched.hours[0]
+                  ? this.state.hours[0]
+                  : this.getNextHourTwo()}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="number">
+          <div className="number-wrapper">
+            {this.state.animations.hours[1] && (
+              <React.Fragment>
+                <div className="up flipUp">
+                  <div className="shadow" />
+                  <div className="inner">{this.getNextHourOne()}</div>
+                </div>
+                <div className="down flipDown">
+                  <div className="shadow" />
+                  <div className="inner">{this.state.hours[1]}</div>
+                </div>
+              </React.Fragment>
+            )}
+            <div className="up">
+              <div className="shadow" />
+              <div className="inner">{this.state.hours[1]}</div>
+            </div>
+            <div className="down">
+              <div className="shadow" />
+              <div className="inner">
+                {this.state.untouched.hours[1]
+                  ? this.state.hours[1]
+                  : this.getNextHourOne()}
+              </div>
+            </div>
+          </div>
+        </div>
         {/* MINUTES */}
         <div className="number">
           <div className="number-wrapper">
