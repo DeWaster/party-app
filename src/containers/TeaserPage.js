@@ -13,12 +13,10 @@ const BackgroundVideo = styled.video`
 `;
 
 class TeaserPage extends Component {
-  videoRef = React.createRef();
-
   render() {
     return (
       <div className="App">
-        <BackgroundVideo autoPlay muted loop ref={this.videoRef}>
+        <BackgroundVideo autoPlay muted loop>
           <source src={Video} type="video/mp4" />
         </BackgroundVideo>
         <Countdown date={new Date('2019-02-31T00:00:00')} />
