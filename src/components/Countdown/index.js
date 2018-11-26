@@ -312,232 +312,252 @@ class Countdown extends Component {
     return (
       <div className="flipclock-wrapper">
         {/* DAYS */}
-        <div className="number">
-          <div className="number-wrapper">
-            {this.state.animations.days[0] && (
-              <React.Fragment>
-                <div className="up flipUp">
-                  <div className="shadow" />
-                  <div className="inner">{this.getNextBaseTwo('days')}</div>
+        <div className="number-pair">
+          <div className="number">
+            <div className="number-wrapper">
+              {this.state.animations.days[0] && (
+                <React.Fragment>
+                  <div className="up flipUp">
+                    <div className="shadow" />
+                    <div className="inner">{this.getNextBaseTwo('days')}</div>
+                  </div>
+                  <div className="down flipDown">
+                    <div className="shadow" />
+                    <div className="inner">{this.state.days[0]}</div>
+                  </div>
+                </React.Fragment>
+              )}
+              <div className="up">
+                <div className="shadow" />
+                <div className="inner">{this.state.days[0]}</div>
+              </div>
+              <div className="down">
+                <div className="shadow" />
+                <div className="inner">
+                  {this.state.untouched.days[0]
+                    ? this.state.days[0]
+                    : this.getNextBaseTwo('days')}
                 </div>
-                <div className="down flipDown">
-                  <div className="shadow" />
-                  <div className="inner">{this.state.days[0]}</div>
-                </div>
-              </React.Fragment>
-            )}
-            <div className="up">
-              <div className="shadow" />
-              <div className="inner">{this.state.days[0]}</div>
-            </div>
-            <div className="down">
-              <div className="shadow" />
-              <div className="inner">
-                {this.state.untouched.days[0]
-                  ? this.state.days[0]
-                  : this.getNextBaseTwo('days')}
               </div>
             </div>
           </div>
-        </div>
-        <div className="number">
-          <div className="number-wrapper">
-            {this.state.animations.days[1] && (
-              <React.Fragment>
-                <div className="up flipUp">
-                  <div className="shadow" />
-                  <div className="inner">{this.getNextBaseOne('days')}</div>
+          <div className="number">
+            <div className="number-wrapper">
+              {this.state.animations.days[1] && (
+                <React.Fragment>
+                  <div className="up flipUp">
+                    <div className="shadow" />
+                    <div className="inner">{this.getNextBaseOne('days')}</div>
+                  </div>
+                  <div className="down flipDown">
+                    <div className="shadow" />
+                    <div className="inner">{this.state.days[1]}</div>
+                  </div>
+                </React.Fragment>
+              )}
+              <div className="up">
+                <div className="shadow" />
+                <div className="inner">{this.state.days[1]}</div>
+              </div>
+              <div className="down">
+                <div className="shadow" />
+                <div className="inner">
+                  {this.state.untouched.days[1]
+                    ? this.state.days[1]
+                    : this.getNextBaseOne('days')}
                 </div>
-                <div className="down flipDown">
-                  <div className="shadow" />
-                  <div className="inner">{this.state.days[1]}</div>
-                </div>
-              </React.Fragment>
-            )}
-            <div className="up">
-              <div className="shadow" />
-              <div className="inner">{this.state.days[1]}</div>
-            </div>
-            <div className="down">
-              <div className="shadow" />
-              <div className="inner">
-                {this.state.untouched.days[1]
-                  ? this.state.days[1]
-                  : this.getNextBaseOne('days')}
               </div>
             </div>
           </div>
+          <div className="clock-header">PÄIVÄÄ</div>
         </div>
         {/* HOURS */}
-        <div className="number">
-          <div className="number-wrapper">
-            {this.state.animations.hours[0] && (
-              <React.Fragment>
-                <div className="up flipUp">
-                  <div className="shadow" />
-                  <div className="inner">{this.getNextHourTwo()}</div>
+        <div className="number-pair">
+          <div className="number">
+            <div className="number-wrapper">
+              {this.state.animations.hours[0] && (
+                <React.Fragment>
+                  <div className="up flipUp">
+                    <div className="shadow" />
+                    <div className="inner">{this.getNextHourTwo()}</div>
+                  </div>
+                  <div className="down flipDown">
+                    <div className="shadow" />
+                    <div className="inner">{this.state.hours[0]}</div>
+                  </div>
+                </React.Fragment>
+              )}
+              <div className="up">
+                <div className="shadow" />
+                <div className="inner">{this.state.hours[0]}</div>
+              </div>
+              <div className="down">
+                <div className="shadow" />
+                <div className="inner">
+                  {this.state.untouched.hours[0]
+                    ? this.state.hours[0]
+                    : this.getNextHourTwo()}
                 </div>
-                <div className="down flipDown">
-                  <div className="shadow" />
-                  <div className="inner">{this.state.hours[0]}</div>
-                </div>
-              </React.Fragment>
-            )}
-            <div className="up">
-              <div className="shadow" />
-              <div className="inner">{this.state.hours[0]}</div>
-            </div>
-            <div className="down">
-              <div className="shadow" />
-              <div className="inner">
-                {this.state.untouched.hours[0]
-                  ? this.state.hours[0]
-                  : this.getNextHourTwo()}
               </div>
             </div>
           </div>
+          <div className="number">
+            <div className="number-wrapper">
+              {this.state.animations.hours[1] && (
+                <React.Fragment>
+                  <div className="up flipUp">
+                    <div className="shadow" />
+                    <div className="inner">{this.getNextHourOne()}</div>
+                  </div>
+                  <div className="down flipDown">
+                    <div className="shadow" />
+                    <div className="inner">{this.state.hours[1]}</div>
+                  </div>
+                </React.Fragment>
+              )}
+              <div className="up">
+                <div className="shadow" />
+                <div className="inner">{this.state.hours[1]}</div>
+              </div>
+              <div className="down">
+                <div className="shadow" />
+                <div className="inner">
+                  {this.state.untouched.hours[1]
+                    ? this.state.hours[1]
+                    : this.getNextHourOne()}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="clock-header">TUNTIA</div>
         </div>
-        <div className="number">
-          <div className="number-wrapper">
-            {this.state.animations.hours[1] && (
-              <React.Fragment>
-                <div className="up flipUp">
-                  <div className="shadow" />
-                  <div className="inner">{this.getNextHourOne()}</div>
+        <div className="number-pair">
+          {/* MINUTES */}
+          <div className="number">
+            <div className="number-wrapper">
+              {this.state.animations.minutes[0] && (
+                <React.Fragment>
+                  <div className="up flipUp">
+                    <div className="shadow" />
+                    <div className="inner">
+                      {this.getNextBaseTwo('minutes')}
+                    </div>
+                  </div>
+                  <div className="down flipDown">
+                    <div className="shadow" />
+                    <div className="inner">{this.state.minutes[0]}</div>
+                  </div>
+                </React.Fragment>
+              )}
+              <div className="up">
+                <div className="shadow" />
+                <div className="inner">{this.state.minutes[0]}</div>
+              </div>
+              <div className="down">
+                <div className="shadow" />
+                <div className="inner">
+                  {this.state.untouched.minutes[0]
+                    ? this.state.minutes[0]
+                    : this.getNextBaseTwo('minutes')}
                 </div>
-                <div className="down flipDown">
-                  <div className="shadow" />
-                  <div className="inner">{this.state.hours[1]}</div>
-                </div>
-              </React.Fragment>
-            )}
-            <div className="up">
-              <div className="shadow" />
-              <div className="inner">{this.state.hours[1]}</div>
-            </div>
-            <div className="down">
-              <div className="shadow" />
-              <div className="inner">
-                {this.state.untouched.hours[1]
-                  ? this.state.hours[1]
-                  : this.getNextHourOne()}
               </div>
             </div>
           </div>
+          <div className="number">
+            <div className="number-wrapper">
+              {this.state.animations.minutes[1] && (
+                <React.Fragment>
+                  <div className="up flipUp">
+                    <div className="shadow" />
+                    <div className="inner">
+                      {this.getNextBaseOne('minutes')}
+                    </div>
+                  </div>
+                  <div className="down flipDown">
+                    <div className="shadow" />
+                    <div className="inner">{this.state.minutes[1]}</div>
+                  </div>
+                </React.Fragment>
+              )}
+              <div className="up">
+                <div className="shadow" />
+                <div className="inner">{this.state.minutes[1]}</div>
+              </div>
+              <div className="down">
+                <div className="shadow" />
+                <div className="inner">
+                  {this.state.untouched.minutes[1]
+                    ? this.state.minutes[1]
+                    : this.getNextBaseOne('minutes')}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="clock-header">MINUUTTIA</div>
         </div>
-        {/* MINUTES */}
-        <div className="number">
-          <div className="number-wrapper">
-            {this.state.animations.minutes[0] && (
-              <React.Fragment>
-                <div className="up flipUp">
-                  <div className="shadow" />
-                  <div className="inner">{this.getNextBaseTwo('minutes')}</div>
+        <div className="number-pair">
+          {/* SECONDS */}
+          <div className="number">
+            <div className="number-wrapper">
+              {this.state.animations.seconds[0] && (
+                <React.Fragment>
+                  <div className="up flipUp">
+                    <div className="shadow" />
+                    <div className="inner">
+                      {this.getNextBaseTwo('seconds')}
+                    </div>
+                  </div>
+                  <div className="down flipDown">
+                    <div className="shadow" />
+                    <div className="inner">{this.state.seconds[0]}</div>
+                  </div>
+                </React.Fragment>
+              )}
+              <div className="up">
+                <div className="shadow" />
+                <div className="inner">{this.state.seconds[0]}</div>
+              </div>
+              <div className="down">
+                <div className="shadow" />
+                <div className="inner">
+                  {this.state.untouched.seconds[0]
+                    ? this.state.seconds[0]
+                    : this.getNextBaseTwo('seconds')}
                 </div>
-                <div className="down flipDown">
-                  <div className="shadow" />
-                  <div className="inner">{this.state.minutes[0]}</div>
-                </div>
-              </React.Fragment>
-            )}
-            <div className="up">
-              <div className="shadow" />
-              <div className="inner">{this.state.minutes[0]}</div>
-            </div>
-            <div className="down">
-              <div className="shadow" />
-              <div className="inner">
-                {this.state.untouched.minutes[0]
-                  ? this.state.minutes[0]
-                  : this.getNextBaseTwo('minutes')}
               </div>
             </div>
           </div>
-        </div>
-        <div className="number">
-          <div className="number-wrapper">
-            {this.state.animations.minutes[1] && (
-              <React.Fragment>
-                <div className="up flipUp">
-                  <div className="shadow" />
-                  <div className="inner">{this.getNextBaseOne('minutes')}</div>
+          <div className="number">
+            <div className="number-wrapper">
+              {this.state.animations.seconds[1] && (
+                <React.Fragment>
+                  <div className="up flipUp">
+                    <div className="shadow" />
+                    <div className="inner">
+                      {this.getNextBaseOne('seconds')}
+                    </div>
+                  </div>
+                  <div className="down flipDown">
+                    <div className="shadow" />
+                    <div className="inner">{this.state.seconds[1]}</div>
+                  </div>
+                </React.Fragment>
+              )}
+              <div className="up">
+                <div className="shadow" />
+                <div className="inner">{this.state.seconds[1]}</div>
+              </div>
+              <div className="down">
+                <div className="shadow" />
+                <div className="inner">
+                  {this.state.untouched.seconds[1]
+                    ? this.state.seconds[1]
+                    : this.getNextBaseOne('seconds')}
                 </div>
-                <div className="down flipDown">
-                  <div className="shadow" />
-                  <div className="inner">{this.state.minutes[1]}</div>
-                </div>
-              </React.Fragment>
-            )}
-            <div className="up">
-              <div className="shadow" />
-              <div className="inner">{this.state.minutes[1]}</div>
-            </div>
-            <div className="down">
-              <div className="shadow" />
-              <div className="inner">
-                {this.state.untouched.minutes[1]
-                  ? this.state.minutes[1]
-                  : this.getNextBaseOne('minutes')}
               </div>
             </div>
           </div>
-        </div>
-        {/* SECONDS */}
-        <div className="number">
-          <div className="number-wrapper">
-            {this.state.animations.seconds[0] && (
-              <React.Fragment>
-                <div className="up flipUp">
-                  <div className="shadow" />
-                  <div className="inner">{this.getNextBaseTwo('seconds')}</div>
-                </div>
-                <div className="down flipDown">
-                  <div className="shadow" />
-                  <div className="inner">{this.state.seconds[0]}</div>
-                </div>
-              </React.Fragment>
-            )}
-            <div className="up">
-              <div className="shadow" />
-              <div className="inner">{this.state.seconds[0]}</div>
-            </div>
-            <div className="down">
-              <div className="shadow" />
-              <div className="inner">
-                {this.state.untouched.seconds[0]
-                  ? this.state.seconds[0]
-                  : this.getNextBaseTwo('seconds')}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="number">
-          <div className="number-wrapper">
-            {this.state.animations.seconds[1] && (
-              <React.Fragment>
-                <div className="up flipUp">
-                  <div className="shadow" />
-                  <div className="inner">{this.getNextBaseOne('seconds')}</div>
-                </div>
-                <div className="down flipDown">
-                  <div className="shadow" />
-                  <div className="inner">{this.state.seconds[1]}</div>
-                </div>
-              </React.Fragment>
-            )}
-            <div className="up">
-              <div className="shadow" />
-              <div className="inner">{this.state.seconds[1]}</div>
-            </div>
-            <div className="down">
-              <div className="shadow" />
-              <div className="inner">
-                {this.state.untouched.seconds[1]
-                  ? this.state.seconds[1]
-                  : this.getNextBaseOne('seconds')}
-              </div>
-            </div>
-          </div>
+          <div className="clock-header">TUNTIA</div>
         </div>
       </div>
     );
