@@ -28,6 +28,25 @@ class Countdown extends Component {
     },
   };
 
+  updateTimes() {
+    const secondsTill = moment(this.props.date).diff(new Date(), 'seconds');
+    const days = Math.floor(secondsTill / 86400);
+    const hours = Math.floor((secondsTill - days * 86400) / 3600);
+    const minutes = Math.floor(
+      (secondsTill - days * 86400 - hours * 3600) / 60
+    );
+    const seconds = secondsTill - days * 86400 - hours * 3600 - minutes * 60;
+
+    this.setState((state, props) => {
+      return {
+        days: [Math.floor((days / 10) % 10), Math.floor(days % 10)],
+        hours: [Math.floor((hours / 10) % 10), Math.floor(hours % 10)],
+        minutes: [Math.floor((minutes / 10) % 10), Math.floor(minutes % 10)],
+        seconds: [Math.floor((seconds / 10) % 10), Math.floor(seconds % 10)],
+      };
+    });
+  }
+
   isTimeEnded = () => {
     const times = this.state.seconds.concat(
       this.state.minutes,
@@ -285,6 +304,7 @@ class Countdown extends Component {
   };
 
   componentDidMount() {
+    this.updateTimes();
     this.secondInterval = setInterval(this.subtrackSecond, 1000);
   }
 
