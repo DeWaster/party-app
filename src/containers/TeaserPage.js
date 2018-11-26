@@ -19,7 +19,7 @@ class TeaserPage extends Component {
         <BackgroundVideo autoPlay muted loop>
           <source src={Video} type="video/mp4" />
         </BackgroundVideo>
-        <Countdown date={new Date('2019-02-31T00:00:00')} />
+        <Countdown date={new Date('2019-01-30T22:00:00.000Z')} />
       </div>
     );
   }
