@@ -174,3 +174,40 @@
     opacity: 0;
   }
 }
+
+/* Media queries */
+@media only screen and (max-width: 750px) {
+  .number-pair {
+    margin: 0 5px;
+  }
+
+  .number {
+    width: 30px;
+    height: 55px;
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 57px;
+  }
+
+  .clock-header {
+    font-size: 10px;
+  }
+}
+
+@media only screen and (max-width: 380px) {
+  .number-pair {
+    margin: 0 2px;
+  }
+
+  .number {
+    width: 25px;
+    height: 40px;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 47px;
+  }
+
+  .clock-header {
+    font-size: 7px;
+  }
+}
