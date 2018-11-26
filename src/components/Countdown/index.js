@@ -557,7 +557,7 @@ class Countdown extends Component {
               </div>
             </div>
           </div>
-          <div className="clock-header">TUNTIA</div>
+          <div className="clock-header">SEKUNTIA</div>
         </div>
       </div>
     );
