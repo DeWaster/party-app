@@ -100,6 +100,32 @@
   animation: turn 0.5s 0.5s linear both;
 }
 
+.flipDown .shadow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  animation: hide 0.5s 0.3s linear both;
+}
+
+.flipUp .shadow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  animation: show 0.5s linear both;
+}
+
 @keyframes turn {
   0% {
     transform: rotateX(90deg);
@@ -127,5 +153,24 @@
   }
   100% {
     z-index: 4;
+  }
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes hide {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
   }
 }
