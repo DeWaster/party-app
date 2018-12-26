@@ -13,6 +13,7 @@
 }
 
 .clock-header {
+  font-family: 'Fjalla One', sans-serif;
   text-align: center;
   position: relative;
   font-size: 18px;
@@ -22,14 +23,15 @@
 }
 
 .number {
+  font-family: 'Fjalla One', sans-serif;
   position: relative;
   float: left;
   margin: 5px;
   width: 60px;
   height: 90px;
-  font-size: 80px;
+  font-size: 75px;
   font-weight: bold;
-  line-height: 87px;
+  line-height: 93px;
   border-radius: 6px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
 }
