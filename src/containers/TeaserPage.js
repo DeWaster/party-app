@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Howl } from 'howler';
+import { Howl, Howler } from 'howler';
 
-import VideoMp4 from '../assets/videos/epic1.mp4';
-import VideoWebm from '../assets/videos/epic1.webm';
+import VideoMp4 from '../assets/videos/epic2.mp4';
+import VideoWebm from '../assets/videos/epic2.webm';
 import epicMusic1Ogg from '../assets/music/epic1.ogg';
 import epicMusic2Ogg from '../assets/music/epic2.ogg';
 import epicMusic3Ogg from '../assets/music/epic3.ogg';
@@ -26,17 +26,31 @@ const BackgroundVideo = styled.video`
 `;
 
 class TeaserPage extends Component {
+  state = {
+    playing: true,
+  };
+
   sound = new Howl({
-    src: [epicMusic1Ogg, epicMusic1Mp3],
+    src: [epicMusic2Ogg, epicMusic2Mp3],
     autoplay: true,
     loop: true,
   });
 
+  componentDidMount() {
+    this.setState({
+      playing: true,
+    });
+  }
+
+  getVideo = days => {};
+
   togglePlay = () => {
     this.sound.playing() ? this.sound.pause() : this.sound.play();
+    this.setState({
+      playing: this.sound.playing(),
+    });
   };
   render() {
-    const playing = this.sound.playing();
     return (
       <div className="App">
         <BackgroundVideo autoPlay muted loop poster={poster}>
@@ -44,7 +58,7 @@ class TeaserPage extends Component {
           <source src={VideoWebm} type="video/webm" />
         </BackgroundVideo>
         <Countdown date={new Date('2019-01-31T12:00:00.000Z')} />
-        <MuteButton playing={playing} onClick={this.togglePlay} />
+        <MuteButton playing={this.state.playing} onClick={this.togglePlay} />
       </div>
     );
   }
