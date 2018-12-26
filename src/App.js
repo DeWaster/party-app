@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
 
 import TeaserPage from './containers/TeaserPage';
-
-library.add(faVolumeUp, faVolumeMute);
+import FrontPage from './containers/FrontPage';
 
 class App extends Component {
   render() {
