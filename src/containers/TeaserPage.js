@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Howl, Howler } from 'howler';
+import { Howl } from 'howler';
 
 import VideoMp4 from '../assets/videos/epic2.mp4';
 import VideoWebm from '../assets/videos/epic2.webm';
