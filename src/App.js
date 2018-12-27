@@ -3,6 +3,7 @@ import moment from 'moment';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 
+import config from './config';
 import TeaserPage from './containers/TeaserPage';
 import FrontPage from './containers/FrontPage';
 
@@ -40,7 +41,7 @@ const GlobalStyle = createGlobalStyle`
 
 class App extends Component {
   render() {
-    const isStarted = moment().isAfter('2018-12-26 18:29:00');
+    const isStarted = moment().isAfter(config.eventDate);
 
     return (
       <div className="App">

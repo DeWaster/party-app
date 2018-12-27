@@ -10,6 +10,10 @@ List of apps will be added here later
 
 ## Development
 
+### Edit configuration file
+
+Copy src/config.example.js to src/config.js and edit the values.
+
 ### `npm start`
 
 Runs the app in the development mode.<br>
