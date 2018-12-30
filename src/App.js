@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 
 import config from './config';
 import TeaserPage from './containers/TeaserPage';
-import FrontPage from './containers/FrontPage';
+import Header from './containers/Header';
+import Bingo from './containers/BingoContainer';
+import Apps from './containers/AppsContainer';
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Fjalla+One|Noto+Sans:400,700');
@@ -47,11 +49,15 @@ class App extends Component {
       <div className="App">
         <GlobalStyle />
         <Router>
-          <Route
-            path="/"
-            exact
-            component={isStarted ? FrontPage : TeaserPage}
-          />
+          <React.Fragment>
+            <Route path="/" component={isStarted ? Header : TeaserPage} />
+            {isStarted && (
+              <Switch>
+                <Route exact path="/" component={Apps} />
+                <Route path="/bingo" component={Bingo} />
+              </Switch>
+            )}
+          </React.Fragment>
         </Router>
       </div>
     );
