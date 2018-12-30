@@ -30,3 +30,5 @@ yarn-error.log*
 
 # Ignore the config file
 /src/config.js
+
+.env
