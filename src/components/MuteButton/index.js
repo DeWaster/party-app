@@ -5,6 +5,8 @@ import VolumeUp from '@material-ui/icons/VolumeUp';
 import VolumeOff from '@material-ui/icons/VolumeOff';
 
 const Wrapper = styled.div`
+  height: 50px;
+  width: 50px;
   top: 20px;
   right: 20px;
   color: #ccc;
