@@ -1,4 +1,5 @@
 import config from '../config';
+import { updateHighlights } from '../util/bingoUtils';
 
 const initialState = {
   bingoGrid: [[]],
@@ -35,7 +36,6 @@ export function bingo(state = initialState, action) {
           });
         }
       }
-
       return {
         ...state,
         bingoGrid: grid,
@@ -45,12 +45,12 @@ export function bingo(state = initialState, action) {
     case 'TOGGLE_BOX':
       const { col, row } = action.payload;
 
-      const newStatusGrid = { ...state.bingoStatus };
+      const newStatusGrid = [...state.bingoStatus];
       newStatusGrid[row][col]['pressed'] = !newStatusGrid[row][col]['pressed'];
 
       return {
         ...state,
-        bingoStatus: newStatusGrid,
+        bingoStatus: updateHighlights(newStatusGrid),
       };
     default:
       return state;
