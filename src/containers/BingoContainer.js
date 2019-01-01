@@ -10,7 +10,9 @@ const Wrapper = styled.div``;
 
 class BingoContainer extends Component {
   componentDidMount() {
-    this.props.initialiseGrid();
+    if (this.props.bingo.bingoGrid[0].length === 0) {
+      this.props.initialiseGrid();
+    }
   }
 
   onToggleBox = (row, col) => {
