@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import * as bingoActions from '../actions/bingo';
+import * as uiActions from '../actions/ui';
 
 import Bingo from '../components/Bingo';
-//import * as bingoActions from '../actions/bingo';
+import Navigation from '../components/Navigation';
 
 const Wrapper = styled.div``;
 
@@ -22,6 +23,7 @@ class BingoContainer extends Component {
   render() {
     return (
       <Wrapper>
+        <Navigation onToggleSidepanel={this.props.toggleSidepanel} />
         <Bingo {...this.props} onToggleBox={this.onToggleBox} />
       </Wrapper>
     );
@@ -34,6 +36,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   ...bingoActions,
+  ...uiActions,
 };
 
 export default connect(
