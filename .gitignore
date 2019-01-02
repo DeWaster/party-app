@@ -28,5 +28,8 @@ yarn-error.log*
 *.webm
 *.mp4
 
-# Ignore the config file
+# Ignore the config files
 /src/config.js
+/src/components/AppsList/apps.js
+
+.env

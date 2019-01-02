@@ -3,17 +3,15 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import * as uiActions from '../actions/ui';
-import Navigation from '../components/Navigation';
 import SideMenu from '../components/SideMenu';
 
 const Wrapper = styled.div``;
 
-class FrontPage extends Component {
+class Header extends Component {
   render() {
     const props = this.props;
     return (
       <Wrapper>
-        <Navigation onToggleSidepanel={props.toggleSidepanel} />
         <SideMenu
           show={props.ui.showSidepanel}
           onToggleSidepanel={props.toggleSidepanel}
@@ -34,4 +32,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FrontPage);
+)(Header);
