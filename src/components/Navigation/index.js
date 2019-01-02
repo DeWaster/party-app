@@ -82,9 +82,11 @@ const Navigation = props => {
                     <Paper>
                       <ClickAwayListener onClickAway={handleClose}>
                         <MenuList>
-                          <MenuItem>Profile</MenuItem>
-                          <MenuItem>My account</MenuItem>
-                          <MenuItem>Logout</MenuItem>
+                          {props.menuItems.map(item => (
+                            <MenuItem key={item.title} onClick={item.onClick}>
+                              {item.title}
+                            </MenuItem>
+                          ))}
                         </MenuList>
                       </ClickAwayListener>
                     </Paper>
@@ -111,6 +113,7 @@ Navigation.propTypes = {
   showMenuSelector: PropTypes.bool,
   openMenu: PropTypes.func,
   closeMenu: PropTypes.func,
+  menuItems: PropTypes.array,
 };
 
 export default withStyles(styles)(Navigation);
