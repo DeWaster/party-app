@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 
 /* Icons */
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import Home from '@material-ui/icons/Home';
 import Help from '@material-ui/icons/Help';
 import Book from '@material-ui/icons/Book';
 import Apps from '@material-ui/icons/Apps';
@@ -31,12 +31,14 @@ const SideMenu = props => {
         </div>
         <Divider />
         <List>
-          <ListItem button key={'Koti'}>
-            <ListItemIcon>
-              <Home />
-            </ListItemIcon>
-            <ListItemText primary={'Koti'} />
-          </ListItem>
+          <Link to="/">
+            <ListItem button key={'Koti'}>
+              <ListItemIcon>
+                <Apps />
+              </ListItemIcon>
+              <ListItemText primary={'Koti'} />
+            </ListItem>
+          </Link>
           <ListItem button key={'Ohjeet'}>
             <ListItemIcon>
               <Book />
@@ -48,12 +50,6 @@ const SideMenu = props => {
               <Help />
             </ListItemIcon>
             <ListItemText primary={'UKK'} />
-          </ListItem>
-          <ListItem button key={'Apps'}>
-            <ListItemIcon>
-              <Apps />
-            </ListItemIcon>
-            <ListItemText primary={'Apps'} />
           </ListItem>
           <ListItem button key={'Galleria'}>
             <ListItemIcon>
