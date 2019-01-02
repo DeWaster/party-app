@@ -7,6 +7,7 @@ import * as uiActions from '../actions/ui';
 
 import Bingo from '../components/Bingo';
 import Navigation from '../components/Navigation';
+import Confirm from '../components/Confirm';
 
 const Wrapper = styled.div``;
 
@@ -21,17 +22,36 @@ class BingoContainer extends Component {
     this.props.toggleBox({ row, col });
   };
 
+  handleBingoReset = () => {
+    this.props.initialiseGrid();
+    this.props.closeConfirmation();
+  };
+
   render() {
+    const { ui } = this.props;
+    const appMenuItems = [
+      {
+        title: 'Nollaa bingo',
+        onClick: this.props.openConfirmation,
+      },
+    ];
+
     return (
       <Wrapper>
         <Navigation
           onToggleSidepanel={this.props.toggleSidepanel}
           showMenuSelector={true}
-          showMenu={this.props.ui.showAppMenu}
+          showMenu={ui.showAppMenu}
           openMenu={this.props.openAppMenu}
           closeMenu={this.props.closeAppMenu}
+          menuItems={appMenuItems}
         />
         <Bingo {...this.props} onToggleBox={this.onToggleBox} />
+        <Confirm
+          open={ui.showConfirmation}
+          onConfirm={this.handleBingoReset}
+          onCancel={this.props.closeConfirmation}
+        />
       </Wrapper>
     );
   }

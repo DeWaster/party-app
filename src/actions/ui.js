@@ -9,3 +9,11 @@ export const openAppMenu = () => ({
 export const closeAppMenu = () => ({
   type: 'CLOSE_APP_MENU',
 });
+
+export const openConfirmation = () => ({
+  type: 'OPEN_CONFIRMATION',
+});
+
+export const closeConfirmation = () => ({
+  type: 'CLOSE_CONFIRMATION',
+});
