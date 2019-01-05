@@ -7,6 +7,7 @@ import config from './config';
 import TeaserPage from './containers/TeaserPage';
 import Header from './containers/Header';
 import Bingo from './containers/BingoContainer';
+import CardGame from './containers/CardGameContainer';
 import Apps from './containers/AppsContainer';
 
 const GlobalStyle = createGlobalStyle`
@@ -55,6 +56,7 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={Apps} />
                 <Route path="/bingo" component={Bingo} />
+                <Route path="/cardGame" component={CardGame} />
               </Switch>
             )}
           </React.Fragment>
