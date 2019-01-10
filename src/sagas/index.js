@@ -1,9 +1,6 @@
-import { put, takeLatest, all } from 'redux-saga/effects';
-//import config from '../config';
+import { all } from 'redux-saga/effects';
+import { watchErrors } from './error';
 
-function* actionWatcher() {
-  //yield takeLatest('FETCH_WEATHER', fetchWeather);
-}
 export default function* rootSaga() {
-  yield all([actionWatcher()]);
+  yield all([watchErrors()]);
 }
