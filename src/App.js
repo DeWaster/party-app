@@ -9,6 +9,7 @@ import Header from './containers/Header';
 import Bingo from './containers/BingoContainer';
 import CardGame from './containers/CardGameContainer';
 import Apps from './containers/AppsContainer';
+import Error from './components/Error';
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Fjalla+One|Noto+Sans:400,700');
@@ -61,6 +62,7 @@ class App extends Component {
             )}
           </React.Fragment>
         </Router>
+        {isStarted && <Error />}
       </div>
     );
   }

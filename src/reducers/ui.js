@@ -2,6 +2,8 @@ const initialState = {
   showSidepanel: false,
   showAppMenu: false,
   showConfirmation: false,
+  showError: false,
+  errorMessage: '',
 };
 
 export function ui(state = initialState, action) {
@@ -30,6 +32,21 @@ export function ui(state = initialState, action) {
       return {
         ...state,
         showConfirmation: false,
+      };
+    case 'SHOW_ERROR_SNACK':
+      return {
+        ...state,
+        showError: true,
+      };
+    case 'CLOSE_ERROR_SNACK':
+      return {
+        ...state,
+        showError: false,
+      };
+    case 'CHANGE_ERROR_MESSAGE':
+      return {
+        ...state,
+        errorMessage: action.payload,
       };
     default:
       return state;

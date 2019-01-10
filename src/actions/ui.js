@@ -17,3 +17,12 @@ export const openConfirmation = () => ({
 export const closeConfirmation = () => ({
   type: 'CLOSE_CONFIRMATION',
 });
+
+export const showError = message => ({
+  type: 'SHOW_ERROR',
+  payload: message,
+});
+
+export const hideError = () => ({
+  type: 'CLOSE_ERROR_SNACK',
+});
