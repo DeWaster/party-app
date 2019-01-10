@@ -8,6 +8,7 @@ import TeaserPage from './containers/TeaserPage';
 import Header from './containers/Header';
 import Bingo from './containers/BingoContainer';
 import CardGame from './containers/CardGameContainer';
+import Locator from './containers/LocatorContainer';
 import Apps from './containers/AppsContainer';
 import Error from './components/Error';
 
@@ -58,6 +59,7 @@ class App extends Component {
                 <Route exact path="/" component={Apps} />
                 <Route path="/bingo" component={Bingo} />
                 <Route path="/cardGame" component={CardGame} />
+                <Route path="/locator" component={Locator} />
               </Switch>
             )}
           </React.Fragment>
