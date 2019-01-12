@@ -2,6 +2,14 @@ export const toggleSidepanel = () => ({
   type: 'TOGGLE_SIDEPANEL',
 });
 
+export const openSidepanel = () => ({
+  type: 'OPEN_SIDEPANEL',
+});
+
+export const closeSidepanel = () => ({
+  type: 'CLOSE_SIDEPANEL',
+});
+
 export const openAppMenu = () => ({
   type: 'OPEN_APP_MENU',
 });

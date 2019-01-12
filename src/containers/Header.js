@@ -15,6 +15,8 @@ class Header extends Component {
         <SideMenu
           show={props.ui.showSidepanel}
           onToggleSidepanel={props.toggleSidepanel}
+          onOpenSidePanel={props.openSidepanel}
+          onCloseSidePanel={props.closeSidepanel}
         />
       </Wrapper>
     );

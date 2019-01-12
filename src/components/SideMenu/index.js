@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Drawer from '@material-ui/core/Drawer';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+
 import Divider from '@material-ui/core/Divider';
 
 /* Icons */
@@ -23,8 +24,14 @@ const Wrapper = styled.div``;
 const SideMenu = props => {
   return (
     <Wrapper>
-      <Drawer variant="persistent" anchor="left" open={props.show}>
-        <div>
+      <SwipeableDrawer
+        variant="persistent"
+        anchor="left"
+        open={props.show}
+        onOpen={props.onOpenSidePanel}
+        onClose={props.onCloseSidePanel}
+      >
+        <div tabIndex={0}>
           <IconButton onClick={props.onToggleSidepanel}>
             <ChevronLeftIcon />
           </IconButton>
@@ -54,7 +61,7 @@ const SideMenu = props => {
             <ListItemText primary={'Kirjaudu ulos'} />
           </ListItem>
         </List>
-      </Drawer>
+      </SwipeableDrawer>
     </Wrapper>
   );
 };
@@ -62,6 +69,8 @@ const SideMenu = props => {
 SideMenu.propTypes = {
   show: PropTypes.bool.isRequired,
   onToggleSidepanel: PropTypes.func.isRequired,
+  onOpenSidePanel: PropTypes.func.isRequired,
+  onCloseSidePanel: PropTypes.func.isRequired,
 };
 
 export default SideMenu;

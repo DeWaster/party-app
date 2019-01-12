@@ -13,6 +13,16 @@ export function ui(state = initialState, action) {
         ...state,
         showSidepanel: !state.showSidepanel,
       };
+    case 'OPEN_SIDEPANEL':
+      return {
+        ...state,
+        showSidepanel: true,
+      };
+    case 'CLOSE_SIDEPANEL':
+      return {
+        ...state,
+        showSidepanel: false,
+      };
     case 'CLOSE_APP_MENU':
       return {
         ...state,
