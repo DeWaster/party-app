@@ -17,7 +17,7 @@ const AppBox = styled.div`
   height: 100px;
   margin: 0.5em;
   border-radius: 10px;
-  border: 1px solid #d5ba76;
+  border: 1px solid #8c8c8c;
   background: url(${props => props.image});
   background-size: cover;
   box-shadow: inset 0px 50px 100px -50px #fff;
@@ -33,6 +33,7 @@ const AppTitle = styled.div`
   text-align: center;
   width: 120px;
   font-weight: bold;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.78);
 `;
 
 const Apps = props => {
