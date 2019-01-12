@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Howl, Howler } from 'howler';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { withStyles } from '@material-ui/core/styles';
 
 import * as uiActions from '../actions/ui';
 
@@ -14,6 +16,12 @@ const Wrapper = styled.div`
   background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjNDAzYzNmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDBMOCA4Wk04IDBMMCA4WiIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2U9IiMxZTI5MmQiPjwvcGF0aD4KPC9zdmc+');
 `;
 
+const lineStyle = {
+  root: {},
+};
+
+const LinearBar = withStyles(lineStyle)(LinearProgress);
+
 class SoundboardContainer extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +31,7 @@ class SoundboardContainer extends Component {
       soundsPlaying: [],
       sound: null,
       duration: 0,
+      loading: false,
     };
   }
 
@@ -38,6 +47,7 @@ class SoundboardContainer extends Component {
     this.setState(prevState => ({
       soundsPlaying: prevState.sounds.map(() => false),
       currentSound: null,
+      loading: false,
     }));
   };
 
@@ -55,10 +65,15 @@ class SoundboardContainer extends Component {
     this.stopSound();
     this.setState(prevState => ({
       currentSound: soundNumber,
+      loading: true,
       sound: new Howl({
         src: this.state.sounds[soundNumber],
         autoplay: true,
         onend: () => this.stopSound(soundNumber),
+        onload: () =>
+          this.setState({
+            loading: false,
+          }),
         onplay: () => this.setSoundToPlay(soundNumber),
       }),
     }));
@@ -76,6 +91,7 @@ class SoundboardContainer extends Component {
           openMenu={this.props.openAppMenu}
           closeMenu={this.props.closeAppMenu}
         />
+        {this.state.loading && <LinearBar />}
         <SoundBoard
           onPlaySound={this.selectSound}
           onStopSound={this.stopSound}
