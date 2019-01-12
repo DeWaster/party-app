@@ -105,6 +105,7 @@ const Navigation = props => {
 
 Navigation.defaultProps = {
   showMenu: false,
+  menuItems: [],
 };
 
 Navigation.propTypes = {

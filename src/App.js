@@ -9,6 +9,7 @@ import Header from './containers/Header';
 import Bingo from './containers/BingoContainer';
 import CardGame from './containers/CardGameContainer';
 import Apps from './containers/AppsContainer';
+import SoundBoard from './containers/SoundboardContainer';
 import Error from './components/Error';
 
 const GlobalStyle = createGlobalStyle`
@@ -57,7 +58,8 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={Apps} />
                 <Route path="/bingo" component={Bingo} />
-                <Route path="/cardGame" component={CardGame} />
+                <Route path="/cardgame" component={CardGame} />
+                <Route path="/soundboard" component={SoundBoard} />
               </Switch>
             )}
           </React.Fragment>
