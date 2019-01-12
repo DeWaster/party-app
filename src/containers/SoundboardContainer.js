@@ -8,12 +8,7 @@ import * as uiActions from '../actions/ui';
 import Navigation from '../components/Navigation';
 import SoundBoard from '../components/SoundBoard';
 
-import sound1 from '../components/SoundBoard/sounds/sound1.mp3';
-import sound2 from '../components/SoundBoard/sounds/sound2.mp3';
-import sound3 from '../components/SoundBoard/sounds/sound3.mp3';
-import sound4 from '../components/SoundBoard/sounds/sound4.mp3';
-import sound5 from '../components/SoundBoard/sounds/sound5.mp3';
-import sound6 from '../components/SoundBoard/sounds/sound6.mp3';
+import sounds from '../components/SoundBoard/sounds';
 
 const Wrapper = styled.div`
   background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjNDAzYzNmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDBMOCA4Wk04IDBMMCA4WiIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2U9IiMxZTI5MmQiPjwvcGF0aD4KPC9zdmc+');
@@ -24,7 +19,7 @@ class SoundboardContainer extends Component {
     super(props);
     this.state = {
       currentSound: null,
-      sounds: [sound1, sound2, sound3, sound4, sound5, sound6],
+      sounds,
       soundsPlaying: [],
       sound: null,
       duration: 0,
@@ -58,11 +53,10 @@ class SoundboardContainer extends Component {
 
   selectSound = soundNumber => {
     this.stopSound();
-
     this.setState(prevState => ({
       currentSound: soundNumber,
       sound: new Howl({
-        src: [this.state.sounds[soundNumber]],
+        src: this.state.sounds[soundNumber],
         autoplay: true,
         onend: () => this.stopSound(soundNumber),
         onplay: () => this.setSoundToPlay(soundNumber),
