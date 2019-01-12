@@ -24,7 +24,10 @@ const AppHeader = styled.h3`
 `;
 
 const styles = theme => ({
-  toolbar: theme.mixins.toolbar,
+  toolbar: {
+    ...theme.mixins.toolbar,
+    background: '#383838',
+  },
 });
 
 let anchorEl;
@@ -41,7 +44,7 @@ const Navigation = props => {
 
   return (
     <Wrapper>
-      <AppBar>
+      <AppBar className={classes.toolbar}>
         <Toolbar>
           <IconButton
             color="inherit"
