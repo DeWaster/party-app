@@ -10,6 +10,7 @@ import Bingo from './containers/BingoContainer';
 import CardGame from './containers/CardGameContainer';
 import Apps from './containers/AppsContainer';
 import SoundBoard from './containers/SoundboardContainer';
+import Instructions from './containers/InstructionsContainer';
 import Error from './components/Error';
 
 const GlobalStyle = createGlobalStyle`
@@ -57,6 +58,7 @@ class App extends Component {
             {isStarted && (
               <Switch>
                 <Route exact path="/" component={Apps} />
+                <Route path="/instructions" component={Instructions} />
                 <Route path="/bingo" component={Bingo} />
                 <Route path="/cardgame" component={CardGame} />
                 <Route path="/soundboard" component={SoundBoard} />

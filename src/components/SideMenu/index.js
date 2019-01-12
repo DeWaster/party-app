@@ -39,24 +39,14 @@ const SideMenu = props => {
               <ListItemText primary={'Koti'} />
             </ListItem>
           </Link>
-          <ListItem button key={'Ohjeet'}>
-            <ListItemIcon>
-              <Book />
-            </ListItemIcon>
-            <ListItemText primary={'Ohjeet'} />
-          </ListItem>
-          <ListItem button key={'UKK'}>
-            <ListItemIcon>
-              <Help />
-            </ListItemIcon>
-            <ListItemText primary={'UKK'} />
-          </ListItem>
-          <ListItem button key={'Galleria'}>
-            <ListItemIcon>
-              <PhotoLibrary />
-            </ListItemIcon>
-            <ListItemText primary={'Galleria'} />
-          </ListItem>
+          <Link to="/instructions">
+            <ListItem button key={'Ohjeet'}>
+              <ListItemIcon>
+                <Book />
+              </ListItemIcon>
+              <ListItemText primary={'Ohjeet'} />
+            </ListItem>
+          </Link>
         </List>
         <Divider />
         <List>
