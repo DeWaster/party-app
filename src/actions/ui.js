@@ -31,6 +31,11 @@ export const showError = message => ({
   payload: message,
 });
 
-export const hideError = () => ({
-  type: 'CLOSE_ERROR_SNACK',
+export const showInfo = message => ({
+  type: 'SHOW_INFO',
+  payload: message,
+});
+
+export const hideBubble = () => ({
+  type: 'CLOSE_BUBBLE',
 });
