@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Drawer from '@material-ui/core/Drawer';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+
 import Divider from '@material-ui/core/Divider';
 
 /* Icons */
@@ -11,6 +12,7 @@ import Help from '@material-ui/icons/Help';
 import Book from '@material-ui/icons/Book';
 import Apps from '@material-ui/icons/Apps';
 import PhotoLibrary from '@material-ui/icons/PhotoLibrary';
+import Settings from '@material-ui/icons/Settings';
 
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
@@ -23,8 +25,14 @@ const Wrapper = styled.div``;
 const SideMenu = props => {
   return (
     <Wrapper>
-      <Drawer variant="persistent" anchor="left" open={props.show}>
-        <div>
+      <SwipeableDrawer
+        variant="persistent"
+        anchor="left"
+        open={props.show}
+        onOpen={props.onOpenSidePanel}
+        onClose={props.onCloseSidePanel}
+      >
+        <div tabIndex={0}>
           <IconButton onClick={props.onToggleSidepanel}>
             <ChevronLeftIcon />
           </IconButton>
@@ -48,13 +56,21 @@ const SideMenu = props => {
             </ListItem>
           </Link>
         </List>
+        <Link to="/settings">
+          <ListItem>
+            <ListItemIcon>
+              <Settings />
+            </ListItemIcon>
+            <ListItemText primary={'Asetukset'} />
+          </ListItem>
+        </Link>
         <Divider />
         <List>
           <ListItem>
             <ListItemText primary={'Kirjaudu ulos'} />
           </ListItem>
         </List>
-      </Drawer>
+      </SwipeableDrawer>
     </Wrapper>
   );
 };
@@ -62,6 +78,8 @@ const SideMenu = props => {
 SideMenu.propTypes = {
   show: PropTypes.bool.isRequired,
   onToggleSidepanel: PropTypes.func.isRequired,
+  onOpenSidePanel: PropTypes.func.isRequired,
+  onCloseSidePanel: PropTypes.func.isRequired,
 };
 
 export default SideMenu;

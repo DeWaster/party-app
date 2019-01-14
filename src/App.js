@@ -11,7 +11,8 @@ import CardGame from './containers/CardGameContainer';
 import Apps from './containers/AppsContainer';
 import SoundBoard from './containers/SoundboardContainer';
 import Instructions from './containers/InstructionsContainer';
-import Error from './components/Error';
+import Settings from './containers/SettingsContainer';
+import Bubble from './components/Bubble';
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Fjalla+One|Noto+Sans:400,700');
@@ -43,6 +44,30 @@ const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  #update-notification {
+    position:fixed;
+    bottom: 0;
+    width: 100%;
+    cursor:pointer;
+
+    & .notification-content {
+      width: 320px;
+      padding: 1rem;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 5px 5px 0 0;
+      border: 2px solid #bfbdbd;
+      box-shadow: 0px -1px 29px -6px rgba(0,0,0,0.75);
+
+     & a {
+       cursor: pointer;
+       font-weight: bold;
+       font-size: 1.4em;
+       text-transform: uppercase;
+     }
+    }
+  }
 `;
 
 class App extends Component {
@@ -59,6 +84,7 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={Apps} />
                 <Route path="/instructions" component={Instructions} />
+                <Route path="/settings" component={Settings} />
                 <Route path="/bingo" component={Bingo} />
                 <Route path="/cardgame" component={CardGame} />
                 <Route path="/soundboard" component={SoundBoard} />
@@ -66,7 +92,7 @@ class App extends Component {
             )}
           </React.Fragment>
         </Router>
-        {isStarted && <Error />}
+        {isStarted && <Bubble />}
       </div>
     );
   }

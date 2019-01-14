@@ -2,6 +2,14 @@ export const toggleSidepanel = () => ({
   type: 'TOGGLE_SIDEPANEL',
 });
 
+export const openSidepanel = () => ({
+  type: 'OPEN_SIDEPANEL',
+});
+
+export const closeSidepanel = () => ({
+  type: 'CLOSE_SIDEPANEL',
+});
+
 export const openAppMenu = () => ({
   type: 'OPEN_APP_MENU',
 });
@@ -23,6 +31,11 @@ export const showError = message => ({
   payload: message,
 });
 
-export const hideError = () => ({
-  type: 'CLOSE_ERROR_SNACK',
+export const showInfo = message => ({
+  type: 'SHOW_INFO',
+  payload: message,
+});
+
+export const hideBubble = () => ({
+  type: 'CLOSE_BUBBLE',
 });
