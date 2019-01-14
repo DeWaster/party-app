@@ -43,6 +43,30 @@ const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  #update-notification {
+    position:fixed;
+    bottom: 0;
+    width: 100%;
+    cursor:pointer;
+
+    & .notification-content {
+      width: 320px;
+      padding: 1rem;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 5px 5px 0 0;
+      border: 2px solid #bfbdbd;
+      box-shadow: 0px -1px 29px -6px rgba(0,0,0,0.75);
+
+     & a {
+       cursor: pointer;
+       font-weight: bold;
+       font-size: 1.4em;
+       text-transform: uppercase;
+     }
+    }
+  }
 `;
 
 class App extends Component {
