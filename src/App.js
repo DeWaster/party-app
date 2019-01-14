@@ -11,6 +11,7 @@ import CardGame from './containers/CardGameContainer';
 import Apps from './containers/AppsContainer';
 import SoundBoard from './containers/SoundboardContainer';
 import Instructions from './containers/InstructionsContainer';
+import Settings from './containers/SettingsContainer';
 import Bubble from './components/Bubble';
 
 const GlobalStyle = createGlobalStyle`
@@ -83,6 +84,7 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={Apps} />
                 <Route path="/instructions" component={Instructions} />
+                <Route path="/settings" component={Settings} />
                 <Route path="/bingo" component={Bingo} />
                 <Route path="/cardgame" component={CardGame} />
                 <Route path="/soundboard" component={SoundBoard} />

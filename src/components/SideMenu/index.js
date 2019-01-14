@@ -12,6 +12,7 @@ import Help from '@material-ui/icons/Help';
 import Book from '@material-ui/icons/Book';
 import Apps from '@material-ui/icons/Apps';
 import PhotoLibrary from '@material-ui/icons/PhotoLibrary';
+import Settings from '@material-ui/icons/Settings';
 
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
@@ -55,6 +56,14 @@ const SideMenu = props => {
             </ListItem>
           </Link>
         </List>
+        <Link to="/settings">
+          <ListItem>
+            <ListItemIcon>
+              <Settings />
+            </ListItemIcon>
+            <ListItemText primary={'Asetukset'} />
+          </ListItem>
+        </Link>
         <Divider />
         <List>
           <ListItem>
