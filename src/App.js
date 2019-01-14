@@ -11,7 +11,7 @@ import CardGame from './containers/CardGameContainer';
 import Apps from './containers/AppsContainer';
 import SoundBoard from './containers/SoundboardContainer';
 import Instructions from './containers/InstructionsContainer';
-import Error from './components/Error';
+import Bubble from './components/Bubble';
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Fjalla+One|Noto+Sans:400,700');
@@ -66,7 +66,7 @@ class App extends Component {
             )}
           </React.Fragment>
         </Router>
-        {isStarted && <Error />}
+        {isStarted && <Bubble />}
       </div>
     );
   }

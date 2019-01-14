@@ -2,8 +2,9 @@ const initialState = {
   showSidepanel: false,
   showAppMenu: false,
   showConfirmation: false,
-  showError: false,
-  errorMessage: '',
+  showBubble: false,
+  bubbleMessage: '',
+  bubbleType: 'info',
 };
 
 export function ui(state = initialState, action) {
@@ -43,20 +44,25 @@ export function ui(state = initialState, action) {
         ...state,
         showConfirmation: false,
       };
-    case 'SHOW_ERROR_SNACK':
+    case 'SHOW_BUBBLE':
       return {
         ...state,
-        showError: true,
+        showBubble: true,
       };
-    case 'CLOSE_ERROR_SNACK':
+    case 'CLOSE_BUBBLE':
       return {
         ...state,
-        showError: false,
+        showBubble: false,
       };
-    case 'CHANGE_ERROR_MESSAGE':
+    case 'CHANGE_BUBBLE_MESSAGE':
       return {
         ...state,
-        errorMessage: action.payload,
+        bubbleMessage: action.payload,
+      };
+    case 'CHANGE_BUBBLE_TYPE':
+      return {
+        ...state,
+        bubbleType: action.payload,
       };
     default:
       return state;

@@ -6,6 +6,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import ErrorIcon from '@material-ui/icons/Error';
+import InfoIcon from '@material-ui/icons/Info';
 import CloseIcon from '@material-ui/icons/Close';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -13,7 +14,6 @@ import * as uiActions from '../../actions/ui';
 
 const styles = theme => ({
   wrapper: {
-    backgroundColor: theme.palette.error.dark,
     margin: theme.spacing.unit,
   },
   icon: {
@@ -27,16 +27,36 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
   },
+  error: {
+    backgroundColor: theme.palette.error.dark,
+  },
+  info: {
+    backgroundColor: '#4fc3f7',
+  },
 });
 
-class Error extends React.Component {
+const BubbleIcon = (type, classes) => {
+  switch (type) {
+    case 'error':
+      return (
+        <ErrorIcon className={classNames(classes.icon, classes.iconVariant)} />
+      );
+
+    case 'info':
+      return (
+        <InfoIcon className={classNames(classes.icon, classes.iconVariant)} />
+      );
+  }
+};
+
+class Bubble extends React.Component {
   render() {
     const { classes, ui } = this.props;
     return (
       <div>
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-          open={this.props.ui.showError}
+          open={this.props.ui.showBubble}
           onClose={this.props.hideError}
           ContentProps={{
             'aria-describedby': 'message-id',
@@ -44,13 +64,11 @@ class Error extends React.Component {
         >
           <SnackbarContent
             aria-describedby="client-snackbar"
-            className={classNames(classes.wrapper)}
+            className={classNames(classes[ui.bubbleType])}
             message={
               <span id="client-snackbar" className={classes.message}>
-                <ErrorIcon
-                  className={classNames(classes.icon, classes.iconVariant)}
-                />
-                {ui.errorMessage}
+                {BubbleIcon(ui.bubbleType, classes)}
+                {ui.bubbleMessage}
               </span>
             }
             action={[
@@ -58,7 +76,7 @@ class Error extends React.Component {
                 key="close"
                 aria-label="Close"
                 color="inherit"
-                onClick={this.props.hideError}
+                onClick={this.props.hideBubble}
                 className={classes.close}
               >
                 <CloseIcon className={classes.icon} />
@@ -82,4 +100,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Error));
+)(withStyles(styles)(Bubble));

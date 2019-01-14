@@ -1,6 +1,6 @@
 import { all } from 'redux-saga/effects';
-import { watchErrors } from './error';
+import { watchErrors, watchInfos } from './bubble';
 
 export default function* rootSaga() {
-  yield all([watchErrors()]);
+  yield all([watchErrors(), watchInfos()]);
 }
