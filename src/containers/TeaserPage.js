@@ -6,8 +6,8 @@ import config from '../config';
 
 import VideoMp4 from '../assets/videos/epic3.mp4';
 import VideoWebm from '../assets/videos/epic3.webm';
-import epicMusic3Ogg from '../assets/music/epic3.ogg';
-import epicMusic4Ogg from '../assets/music/epic4.ogg';
+import epicMusic3Webm from '../assets/music/epic3.webm';
+import epicMusic4Webm from '../assets/music/epic4.webm';
 import epicMusic3Mp3 from '../assets/music/epic3.mp3';
 import epicMusic4Mp3 from '../assets/music/epic4.mp3';
 import poster from '../assets/images/poster.jpg';
@@ -44,7 +44,7 @@ class TeaserPage extends Component {
   }
 
   sound = new Howl({
-    src: [epicMusic3Ogg, epicMusic3Mp3],
+    src: [epicMusic3Webm, epicMusic3Mp3],
     autoplay: true,
     loop: true,
   });
