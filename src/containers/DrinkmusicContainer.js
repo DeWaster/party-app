@@ -8,11 +8,11 @@ import * as uiActions from '../actions/ui';
 
 import Drinkmusic from '../components/Drinkmusic';
 import Navigation from '../components/Navigation';
-
 import musicWebm from '../components/Drinkmusic/assets/music/music.mp3';
 import musicMp3 from '../components/Drinkmusic/assets/music/music.webm';
-
 import Confirm from '../components/Confirm';
+
+import '../components/Drinkmusic/lib/cast_sender';
 
 const Wrapper = styled.div``;
 
@@ -24,7 +24,7 @@ class DrinkmusicContainer extends Component {
     };
     this.videoRef = React.createRef();
     this.canvasRef = React.createRef();
-    this.controlPoints = 50;
+    this.controlPoints = 25;
   }
   componentDidMount() {
     this.setState({
@@ -40,6 +40,7 @@ class DrinkmusicContainer extends Component {
     Howler.masterGain.connect(this.analyser);
     this.analyser.connect(Howler.ctx.destination);
     this.frequencyData = new Uint8Array(this.analyser.frequencyBinCount);
+    this.isMobile = window.innerWidth <= 500;
   }
 
   handleMusicReset = () => {
@@ -50,21 +51,26 @@ class DrinkmusicContainer extends Component {
   handleMusicToggle = () => {
     if (this.state.music.playing()) {
       this.state.music.pause();
-      this.videoRef.current.pause();
-      cancelAnimationFrame(this.reqFrameLoop);
+      this.videoRef.current && this.videoRef.current.pause();
+      //cancelAcancelAnimationFrame(this.reqFrameLoop);
     } else {
       this.renderFreqFrame();
       this.state.music.play();
-      this.videoRef.current.play();
+      this.videoRef.current && this.videoRef.current.play();
     }
   };
 
   renderFreqFrame = () => {
     this.reqFrameLoop = requestAnimationFrame(this.renderFreqFrame);
     this.analyser.getByteFrequencyData(this.frequencyData);
-    this.draw(
-      this.createCircleCoordinates(this.arrayToAverages(this.frequencyData))
+
+    this.drawBars(
+      this.createBarCoordinates(this.arrayToAverages(this.frequencyData))
     );
+
+    // this.drawCircle(
+    //   this.createCircleCoordinates(this.arrayToAverages(this.frequencyData))
+    // );
   };
 
   arrayToAverages = freqArray => {
@@ -74,7 +80,8 @@ class DrinkmusicContainer extends Component {
     const perAverage = Math.floor(freqs.length / this.controlPoints);
     while (freqs.length >= perAverage) {
       const a = freqs.splice(0, perAverage);
-      const ave = a.reduce((ac, cur) => ac + cur) / a.length;
+      const ave =
+        a.reduce((ac, cur) => Math.floor(ac) + Math.floor(cur)) / a.length;
       averages.push(ave);
     }
 
@@ -84,16 +91,16 @@ class DrinkmusicContainer extends Component {
 
   createCircleCoordinates = averages => {
     let coords = [];
-    const radius = 100;
-    const startCoord = [300, 300];
+    const radius = 50;
+    const startCoord = [180, 180];
     let key = 0;
     const step = (2 * Math.PI) / this.controlPoints;
 
     // Loop 2 radians
-    for (let i = step; i <= 2 * Math.PI; i += step) {
+    for (let i = step; i < 2 * Math.PI + step; i += step) {
       coords.push([
-        (radius + averages[key] / 4) * Math.sin(i) + startCoord[0],
-        (radius + averages[key] / 4) * Math.cos(i) + startCoord[1],
+        (radius + averages[key] / 2) * Math.sin(i) + startCoord[0],
+        (radius + averages[key] / 2) * Math.cos(i) + startCoord[1],
         (radius + averages[key]) * Math.sin(i) + startCoord[0],
         (radius + averages[key]) * Math.cos(i) + startCoord[1],
       ]);
@@ -102,20 +109,35 @@ class DrinkmusicContainer extends Component {
     return coords;
   };
 
-  draw = coords => {
+  createBarCoordinates = averages => {
+    let coords = [];
+    const radius = 70;
+    const startCoord = [180, 180];
+    let key = 0;
+    const step = (2 * Math.PI) / this.controlPoints;
+
+    // Loop 2 radians
+    for (let i = step; i <= 2 * Math.PI; i += step) {
+      coords.push([
+        radius * Math.sin(i) + startCoord[0],
+        radius * Math.cos(i) + startCoord[1],
+        (radius + averages[key] / 2) * Math.sin(i) + startCoord[0],
+        (radius + averages[key] / 2) * Math.cos(i) + startCoord[1],
+      ]);
+      key++;
+    }
+    return coords;
+  };
+
+  drawCircle = coords => {
     const canvas = this.canvasRef.current;
 
     if (canvas && canvas.getContext) {
       const ctx = canvas.getContext('2d');
+      ctx.translate(ctx.width / 2, ctx.height / 2);
 
-      const gradient = ctx.createRadialGradient(300, 300, 0.0, 300, 300, 200.0);
-      gradient.addColorStop(0.0, 'rgba(10, 0, 178, 1.000)');
-      gradient.addColorStop(0.5, 'rgba(255, 0, 0, 1.000)');
-      gradient.addColorStop(1.0, 'rgba(255, 252, 0, 1.000)');
-
-      const startCoordinates = [300, 300];
+      const startCoordinates = [coords[0][0] - 100, coords[0][1]] - 100;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // Quadratric curves example
       ctx.beginPath();
       ctx.moveTo(startCoordinates[0], startCoordinates[1]);
       coords.map(coord => {
@@ -128,11 +150,34 @@ class DrinkmusicContainer extends Component {
         coords[0][1]
       );
       ctx.closePath();
+      ctx.lineWidth = 10;
+      ctx.strokeStyle = '#000';
+      ctx.stroke();
+    }
+  };
+  drawBars = coords => {
+    const canvas = this.canvasRef.current;
+
+    if (canvas && canvas.getContext) {
+      const ctx = canvas.getContext('2d');
+      ctx.translate(ctx.width / 2, ctx.height / 2);
+
+      const gradient = ctx.createRadialGradient(300, 300, 0.0, 300, 300, 200.0);
+      gradient.addColorStop(0.0, 'rgba(10, 0, 178, 1.000)');
+      gradient.addColorStop(0.5, 'rgba(255, 0, 0, 1.000)');
+      gradient.addColorStop(1.0, 'rgba(255, 252, 0, 1.000)');
+
+      const startCoordinates = coords[0];
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      coords.map(coord => {
+        ctx.moveTo(coord[0], coord[1]);
+        ctx.lineTo(coord[2], coord[3]);
+      });
       ctx.lineWidth = 40;
       ctx.strokeStyle = '#000';
       ctx.fillStyle = '#000';
       ctx.stroke();
-      ctx.fill();
     }
   };
 
@@ -159,6 +204,7 @@ class DrinkmusicContainer extends Component {
           videoRef={this.videoRef}
           canvasRef={this.canvasRef}
           onToggleSong={this.handleMusicToggle}
+          isMobile={this.isMobile}
         />
         <Confirm
           open={ui.showConfirmation}
