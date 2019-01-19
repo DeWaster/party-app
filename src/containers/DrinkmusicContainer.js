@@ -8,11 +8,10 @@ import * as uiActions from '../actions/ui';
 
 import Drinkmusic from '../components/Drinkmusic';
 import Navigation from '../components/Navigation';
-import musicWebm from '../components/Drinkmusic/assets/music/music.mp3';
-import musicMp3 from '../components/Drinkmusic/assets/music/music.webm';
+import musicWebm from '../components/Drinkmusic/assets/music/music.webm';
+import musicMp3 from '../components/Drinkmusic/assets/music/music.mp3';
 import Confirm from '../components/Confirm';
 
-import '../components/Drinkmusic/lib/cast_sender';
 
 const Wrapper = styled.div``;
 
