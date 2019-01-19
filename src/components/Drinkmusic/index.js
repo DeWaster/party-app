@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 import poster from './assets/images/poster.jpg';
 import videoWebm from './assets/videos/background.webm';
@@ -8,10 +8,46 @@ import videoMp4 from './assets/videos/background.mp4';
 import logoUrl from './assets/images/logo.svg';
 import bgUrl from './assets/images/background.jpg';
 
+const gradientEffect = keyframes`
+0% {
+  filter: drop-shadow( -.75px 0px 6px #e59400 ); 
+  stroke:#e59400;
+} 
+
+50% {
+  filter: drop-shadow( 0px 0px 0px #000000 ); 
+  stroke:none;
+}
+
+100% {
+  filter: drop-shadow( -.75px 0px 6px #e59400 ); 
+  stroke:#e59400;
+} 
+`;
+
+const bump = keyframes`
+  0% {
+    transform: scale(1)
+  }
+
+  50% {
+    transform: scale(1.2)
+  }
+
+  100% {
+    transform: scale(1)
+  }
+`;
+
+const playanim = css`
+  animation: ${bump} 0.45s ease-in infinite,
+    ${gradientEffect} 1.2s linear infinite;
+`;
+
 const Wrapper = styled.div`
-  ${props => props.isMobile && `background: url('${bgUrl}');`}
+  ${props => props.isMobile && `background: #000 url("${bgUrl}");`}
   background-size: cover;
-  min-height: 100vh;
+  height: 100vh;
 `;
 const BackgroundVideo = styled.video`
   position: fixed;
@@ -29,15 +65,17 @@ const Circle = styled.canvas`
   transform: translate(-50%, -50%);
 `;
 
-const Logo = styled.img`
-  transform: scale(0.3);
-`;
-
 const LogoWrapper = styled.div`
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+`;
+
+const Logo = styled.img`
+  cursor: pointer;
+  ${props => props.isPlaying && playanim}
+  transform-origin: 50% 50%;
 `;
 
 const Drinkmusic = props => {
@@ -58,7 +96,11 @@ const Drinkmusic = props => {
       <Circle width="360" height="360" ref={props.canvasRef} />
 
       <LogoWrapper>
-        <Logo src={logoUrl} onClick={props.onToggleSong} />
+        <Logo
+          src={logoUrl}
+          onClick={props.onToggleSong}
+          isPlaying={props.isPlaying}
+        />
       </LogoWrapper>
     </Wrapper>
   );
@@ -67,6 +109,7 @@ const Drinkmusic = props => {
 Drinkmusic.propTypes = {
   onToggleSong: PropTypes.func.isRequired,
   videoRef: PropTypes.object.isRequired,
+  isPlaying: PropTypes.bool,
 };
 
 export default Drinkmusic;
