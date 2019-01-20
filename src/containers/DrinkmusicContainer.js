@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Howl, Howler } from 'howler';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import * as uiActions from '../actions/ui';
 
@@ -28,7 +29,7 @@ class DrinkmusicContainer extends Component {
     super(props);
     this.state = {
       music: null,
-      loading: true,
+      loading: false,
       isCasting: false,
       isPlaying: false,
       castAvailable: false,
@@ -143,10 +144,16 @@ class DrinkmusicContainer extends Component {
   handleMusicReset = () => {
     this.state.music && this.state.music.unload();
     this.setState({
+      isPlaying: false,
+      loading: true,
       music: new Howl({
         src: [musicWebm, musicMp3],
         autoplay: false,
         loop: false,
+        onload: () =>
+          this.setState({
+            loading: false,
+          }),
         onend: () => this.videoRef.current && this.videoRef.current.pause(),
       }),
     });
@@ -238,7 +245,7 @@ class DrinkmusicContainer extends Component {
     const appMenuItems = [
       {
         title: 'Aloita alusta',
-        onClick: () => {},
+        onClick: this.props.openConfirmation,
       },
     ];
 
@@ -252,6 +259,7 @@ class DrinkmusicContainer extends Component {
           closeMenu={this.props.closeAppMenu}
           menuItems={appMenuItems}
         />
+        {this.state.loading && <LinearProgress />}
         <Drinkmusic
           videoRef={this.videoRef}
           canvasRef={this.canvasRef}
@@ -266,7 +274,7 @@ class DrinkmusicContainer extends Component {
         />
         <Confirm
           open={ui.showConfirmation}
-          onConfirm={this.handleBingoReset}
+          onConfirm={this.handleMusicReset}
           onCancel={this.props.closeConfirmation}
         />
       </Wrapper>
