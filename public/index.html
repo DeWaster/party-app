@@ -38,10 +38,26 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>JALLU4.LIFE</title>
+    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
   </head>
   <body>
     <noscript> You need to enable JavaScript to run this app. </noscript>
     <div id="root"></div>
     <div id="update-notification"></div>
   </body>
+  <script>
+    window.castReady = new Event('castingready');
+
+    initializeCastApi = function() {
+      cast.framework.CastContext.getInstance().setOptions({
+        receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
+      });
+    };
+    window['__onGCastApiAvailable'] = function(isAvailable) {
+      if (isAvailable) {
+        initializeCastApi();
+        window.dispatchEvent(window.castReady);
+      }
+    };
+  </script>
 </html>

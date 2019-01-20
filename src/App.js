@@ -12,6 +12,7 @@ import Apps from './containers/AppsContainer';
 import SoundBoard from './containers/SoundboardContainer';
 import Instructions from './containers/InstructionsContainer';
 import Settings from './containers/SettingsContainer';
+import Drinkmusic from './containers/DrinkmusicContainer';
 import Bubble from './components/Bubble';
 
 const GlobalStyle = createGlobalStyle`
@@ -88,6 +89,7 @@ class App extends Component {
                 <Route path="/bingo" component={Bingo} />
                 <Route path="/cardgame" component={CardGame} />
                 <Route path="/soundboard" component={SoundBoard} />
+                <Route path="/drinkmusic" component={Drinkmusic} />
               </Switch>
             )}
           </React.Fragment>
