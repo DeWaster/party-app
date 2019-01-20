@@ -43,13 +43,12 @@
   <body>
     <noscript> You need to enable JavaScript to run this app. </noscript>
     <div id="root"></div>
-    <div id="update-notification"></div>
   </body>
   <script>
     window.castReady = new Event('castingready');
 
     initializeCastApi = function() {
-      cast.framework.CastContext.getInstance().setOptions({
+      window.cast.framework.CastContext.getInstance().setOptions({
         receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
       });
     };

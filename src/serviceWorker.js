@@ -8,19 +8,6 @@ const isLocalhost = Boolean(
     )
 );
 
-// Create update notification
-const updateNotification = document.createElement('div');
-updateNotification.innerHTML =
-  'Päivitys saatavilla! Päivitä sovellus uudelleenkäynnistämällä';
-updateNotification.classList.add('notification-content');
-
-let newWorker;
-
-// The click event on the notification
-document.getElementById('update-notification').addEventListener('click', () => {
-  newWorker.postMessage({ action: 'skipWaiting' });
-});
-
 export function register(config) {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
@@ -42,7 +29,10 @@ export function register(config) {
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
         navigator.serviceWorker.ready.then(() => {
-          console.log('Service worker registered!');
+          console.log(
+            'This web app is being served cache-first by a service ' +
+              'worker. To learn more, visit http://bit.ly/CRA-PWA'
+          );
         });
       } else {
         // Is not localhost. Just register service worker
@@ -57,27 +47,20 @@ function registerValidSW(swUrl, config) {
     .register(swUrl)
     .then(registration => {
       registration.onupdatefound = () => {
-        const installingWorker = (newWorker = registration.installing);
+        const installingWorker = registration.installing;
         if (installingWorker == null) {
           return;
         }
-
-        // Reload cache when page is reloaded after update
-        newWorker.addEventListener('message', function(event) {
-          if (event.data.action === 'skipWaiting') {
-            console.log('osu');
-            newWorker.skipWaiting();
-          }
-        });
-
         installingWorker.onstatechange = () => {
           if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
-              // Insert notification about new content
-              document
-                .getElementById('update-notification')
-                .appendChild(updateNotification);
-              console.log('Content updated! Waiting for the reload');
+              // At this point, the updated precached content has been fetched,
+              // but the previous service worker will still serve the older
+              // content until all client tabs are closed.
+              console.log('New content is available; please refresh.');
+              // Append dispatch event
+              const event = new Event('newContentAvailable');
+              window.dispatchEvent(event);
 
               // Execute callback
               if (config && config.onUpdate) {

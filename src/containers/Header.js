@@ -8,6 +8,14 @@ import SideMenu from '../components/SideMenu';
 const Wrapper = styled.div``;
 
 class Header extends Component {
+  componentDidMount() {
+    // Handle global event.
+    window.addEventListener('newContentAvailable', () => {
+      this.props.showInfo(
+        'Uusi versio saatavilla! Sulje ikkuna päivittääksesi'
+      );
+    });
+  }
   render() {
     const props = this.props;
     return (
