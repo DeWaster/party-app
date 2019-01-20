@@ -35,88 +35,114 @@ class DrinkmusicContainer extends Component {
       loading: true,
       isCasting: false,
       isPlaying: false,
-      castController: null,
-      castSession: null,
-      castPlayStatus: null,
+      castAvailable: false,
     };
     this.videoRef = React.createRef();
     this.canvasRef = React.createRef();
     this.controlPoints = 25;
   }
 
-  async componentDidMount() {
-    this.handleMusicReset();
-
-    // Initialize chromecast
-    window['__onGCastApiAvailable'] = async isAvailable => {
-      if (isAvailable) {
-        const { cast, chrome } = window;
-        this.castContext = await initializeCastApi();
-
-        this.castContext.addEventListener(
-          cast.framework.CastContextEventType.CAST_STATE_CHANGED,
-          event => {
-            switch (event.castState) {
-              case 'CONNECTED':
-                this.castSession = cast.framework.CastContext.getInstance().getCurrentSession();
-
-                this.state.music.unload();
-                this.setState({
-                  isCasting: true,
-                  music: null,
-                });
-                this.castPlayer = new cast.framework.RemotePlayer();
-                this.castController = new cast.framework.RemotePlayerController(
-                  this.castPlayer
-                );
-                this.castController.addEventListener(
-                  window.cast.framework.RemotePlayerEventType
-                    .PLAYER_STATE_CHANGED,
-                  event => {
-                    if (event.value === 'PAUSED') {
-                      this.videoRef.current && this.videoRef.current.pause();
-                      this.setState({
-                        isPlaying: false,
-                      });
-                    } else if (event.value === 'PLAYING') {
-                      this.videoRef.current && this.videoRef.current.play();
-                      this.setState({
-                        isPlaying: true,
-                      });
-                    } else if (event.value === 'IDLE') {
-                      this.videoRef.current && this.videoRef.current.pause();
-                      this.setState({
-                        isPlaying: false,
-                      });
-                    }
-                  }
-                );
-                // If chromecast is already playing
-                if (this.getCastPlayerState() === 'PLAYING') {
-                  this.videoRef.current && this.videoRef.current.play();
-                  this.setState({
-                    isPlaying: true,
-                  });
-                }
-
-                break;
-              case 'NOT_CONNECTED':
-                this.setState({
-                  isCasting: false,
-                });
-                this.handleMusicReset();
-                break;
-            }
-          }
+  componentDidMount() {
+    if (window.cast) {
+      const { cast } = window;
+      const castContext = cast.framework.CastContext.getInstance();
+      if (castContext.getCastState() === 'CONNECTED') {
+        const player = new cast.framework.RemotePlayer();
+        const controller = new cast.framework.RemotePlayerController(player);
+        controller.addEventListener(
+          window.cast.framework.RemotePlayerEventType.PLAYER_STATE_CHANGED,
+          this.castPlayerStateChanged
         );
+
+        this.setState({
+          isCasting: true,
+          isPlaying: true,
+          castAvailable: true,
+        });
+      } else {
+        // Initialize Chromecast
+        window.addEventListener('castingready', this.initializeCasting, false);
       }
-    };
+    }
+
+    this.handleMusicReset();
   }
 
   componentWillUnmount() {
-    this.state.music.unload();
+    this.state.music && this.state.music.unload();
     this.setState({});
   }
+
+  initializeCasting = () => {
+    const { cast } = window;
+    const castContext = cast.framework.CastContext.getInstance();
+    this.setState({
+      castAvailable: true,
+    });
+    // Add event handlers
+    castContext.addEventListener(
+      cast.framework.CastContextEventType.CAST_STATE_CHANGED,
+      this.castStateChanged
+    );
+  };
+
+  castStateChanged = event => {
+    const { cast } = window;
+    switch (event.castState) {
+      case 'CONNECTED':
+        // Unload music if any
+        this.state.music && this.state.music.unload();
+
+        this.setState({
+          isCasting: true,
+          music: null,
+          castAvailable: true,
+        });
+
+        // Add session event handlers
+        const player = new cast.framework.RemotePlayer();
+        const controller = new cast.framework.RemotePlayerController(player);
+        controller.addEventListener(
+          window.cast.framework.RemotePlayerEventType.PLAYER_STATE_CHANGED,
+          this.castPlayerStateChanged
+        );
+        if (player.playerState === 'PLAYING') {
+          this.setState({
+            isPlaying: true,
+          });
+          this.videoRef.current && this.videoRef.current.play();
+        }
+        break;
+      case 'NOT_CONNECTED':
+        this.setState({
+          isCasting: false,
+        });
+        this.handleMusicReset();
+    }
+  };
+
+  castPlayerStateChanged = event => {
+    switch (event.value) {
+      case 'PLAYING':
+        this.setState({
+          isPlaying: true,
+        });
+        this.videoRef.current && this.videoRef.current.play();
+        break;
+      case 'PAUSED':
+        this.setState({
+          isPlaying: false,
+        });
+        this.videoRef.current && this.videoRef.current.pause();
+        break;
+      case null:
+        this.setState({
+          isPlaying: false,
+        });
+        this.videoRef.current && this.videoRef.current.pause();
+        break;
+    }
+  };
 
   handleMusicReset = () => {
     this.state.music && this.state.music.unload();
@@ -138,35 +164,42 @@ class DrinkmusicContainer extends Component {
     this.props.closeConfirmation();
   };
 
-  handleMusicToggle = async () => {
-    if (!this.state.isCasting && this.state.music.playing()) {
+  handleMusicToggle = () => {
+    if (this.state.music && this.state.music.playing()) {
       this.state.music.pause();
       this.videoRef.current && this.videoRef.current.pause();
       this.setState({
         isPlaying: false,
       });
       //cancelAcancelAnimationFrame(this.reqFrameLoop);
-    } else if (!this.state.isCasting) {
+    } else {
       this.renderFreqFrame();
       this.state.music.play();
       this.videoRef.current && this.videoRef.current.play();
       this.setState({
         isPlaying: true,
       });
-    } else if (this.state.isCasting) {
-      if (!this.isMediaLoaded()) {
-        try {
-          await loadMusic(this.castSession, musicUrl, 'audio/webm');
-          this.setState({
-            isPlaying: true,
-          });
-          this.videoRef.current && this.videoRef.current.play();
-        } catch {
-          console.log('Failed at loading music');
-        }
-      } else {
-        this.castController.playOrPause();
+    }
+  };
+
+  handleMusicToggleCast = async () => {
+    if (!this.isMediaLoaded()) {
+      try {
+        await loadMusic(musicUrl, 'audio/webm');
+        this.setState(prevState => ({
+          isPlaying: true,
+        }));
+
+        this.videoRef.current && this.videoRef.current.play();
+      } catch (err) {
+        console.log(err);
       }
+    } else {
+      const player = new window.cast.framework.RemotePlayer();
+      const playerController = new window.cast.framework.RemotePlayerController(
+        player
+      );
+      playerController.playOrPause();
     }
   };
 
@@ -193,11 +226,11 @@ class DrinkmusicContainer extends Component {
   };
 
   isMediaLoaded = () => {
-    console.log(this.castSession.getMediaSession());
-    if (!this.castSession) {
+    const castSession = window.cast.framework.CastContext.getInstance().getCurrentSession();
+    if (!castSession) {
       return false;
     }
-    const mediaSession = this.castSession.getMediaSession();
+    const mediaSession = castSession.getMediaSession();
     return mediaSession && mediaSession.media.contentId;
   };
 
@@ -208,10 +241,6 @@ class DrinkmusicContainer extends Component {
       {
         title: 'Aloita alusta',
         onClick: () => {},
-      },
-      {
-        title: <google-cast-launcher />,
-        onClick: () => null,
       },
     ];
 
@@ -228,9 +257,14 @@ class DrinkmusicContainer extends Component {
         <Drinkmusic
           videoRef={this.videoRef}
           canvasRef={this.canvasRef}
-          onToggleSong={this.handleMusicToggle}
+          onToggleSong={
+            this.state.isCasting
+              ? this.handleMusicToggleCast
+              : this.handleMusicToggle
+          }
           isMobile={isMobile}
           isPlaying={this.state.isPlaying}
+          castAvailable={this.state.castAvailable}
         />
         <Confirm
           open={ui.showConfirmation}

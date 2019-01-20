@@ -1,4 +1,5 @@
 /* eslint-disable */
+
 export const initializeCastApi = () => {
   return new Promise((resolve, reject) => {
     const { cast, chrome } = window;
@@ -12,8 +13,9 @@ export const initializeCastApi = () => {
   });
 };
 
-export const loadMusic = (castSession, mediaUrl, contentType) => {
-  const { chrome } = window;
+export const loadMusic = (mediaUrl, contentType) => {
+  const { chrome, cast } = window;
+  const castSession = cast.framework.CastContext.getInstance().getCurrentSession();
   const mediaInfo = new chrome.cast.media.MediaInfo(mediaUrl, contentType);
   const request = new chrome.cast.media.LoadRequest(mediaInfo);
   return castSession.loadMedia(request);
