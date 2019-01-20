@@ -7,6 +7,7 @@ import videoWebm from './assets/videos/background.webm';
 import videoMp4 from './assets/videos/background.mp4';
 import logoUrl from './assets/images/logo.svg';
 import bgUrl from './assets/images/background.jpg';
+import chromecastLogo from './assets/images/chromecast';
 
 const gradientEffect = keyframes`
 0% {
@@ -74,9 +75,31 @@ const LogoWrapper = styled.div`
 
 const Logo = styled.img`
   cursor: pointer;
+  user-select: none;
   ${props => props.isPlaying && playanim}
   transform-origin: 50% 50%;
 `;
+
+const ChromecastWrapper = styled.div`
+  position: fixed;
+  top: 90px;
+  right: 10px;
+  user-select: none;
+`;
+
+const getChromecastButton = castAvailable => {
+  if (castAvailable) {
+    const castContext = window.cast.framework.CastContext.getInstance();
+    const state = castContext.getCastState();
+    console.log(state);
+    return (
+      <ChromecastWrapper onClick={() => castContext.requestSession()}>
+        {chromecastLogo(state === 'CONNECTED' ? '#6774ef' : '#FFF')}
+      </ChromecastWrapper>
+    );
+  }
+  return '';
+};
 
 const Drinkmusic = props => {
   return (
@@ -93,7 +116,9 @@ const Drinkmusic = props => {
           <source src={videoMp4} type="video/mp4" />
         </BackgroundVideo>
       )}
-      <Circle width="360" height="360" ref={props.canvasRef} />
+      {!props.isMobile && (
+        <Circle width="360" height="360" ref={props.canvasRef} />
+      )}
 
       <LogoWrapper>
         <Logo
@@ -102,6 +127,7 @@ const Drinkmusic = props => {
           isPlaying={props.isPlaying}
         />
       </LogoWrapper>
+      {getChromecastButton(props.castAvailable)}
     </Wrapper>
   );
 };
@@ -110,6 +136,7 @@ Drinkmusic.propTypes = {
   onToggleSong: PropTypes.func.isRequired,
   videoRef: PropTypes.object.isRequired,
   isPlaying: PropTypes.bool,
+  castAvailable: PropTypes.bool,
 };
 
 export default Drinkmusic;
