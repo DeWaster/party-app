@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Howl, Howler } from 'howler';
 
-import * as drinkmusicActions from '../actions/drinkmusic';
 import * as uiActions from '../actions/ui';
 
 import Drinkmusic from '../components/Drinkmusic';
@@ -16,10 +15,7 @@ import {
   createBarCoordinates,
   arrayToAverages,
 } from '../components/Drinkmusic/graphics';
-import {
-  initializeCastApi,
-  loadMusic,
-} from '../components/Drinkmusic/chromecast';
+import { loadMusic } from '../components/Drinkmusic/chromecast';
 
 const musicUrl = `${window.location.protocol}//${
   window.location.host
@@ -173,7 +169,9 @@ class DrinkmusicContainer extends Component {
       });
       //cancelAcancelAnimationFrame(this.reqFrameLoop);
     } else {
-      this.renderFreqFrame();
+      // Disable in mobile
+      window.innerWidth <= 500 && this.renderFreqFrame();
+
       this.state.music.play();
       this.videoRef.current && this.videoRef.current.play();
       this.setState({
@@ -281,7 +279,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  ...drinkmusicActions,
   ...uiActions,
 };
 
