@@ -64,12 +64,6 @@ const SideMenu = props => {
             <ListItemText primary={'Asetukset'} />
           </ListItem>
         </Link>
-        <Divider />
-        <List>
-          <ListItem>
-            <ListItemText primary={'Kirjaudu ulos'} />
-          </ListItem>
-        </List>
       </SwipeableDrawer>
     </Wrapper>
   );
@@ -80,6 +74,7 @@ SideMenu.propTypes = {
   onToggleSidepanel: PropTypes.func.isRequired,
   onOpenSidePanel: PropTypes.func.isRequired,
   onCloseSidePanel: PropTypes.func.isRequired,
+  onLogout: PropTypes.func.isRequired,
 };
 
 export default SideMenu;
