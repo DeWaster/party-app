@@ -5,6 +5,7 @@ const initialState = {
   showBubble: false,
   bubbleMessage: '',
   bubbleType: 'info',
+  showAuthError: false,
 };
 
 export function ui(state = initialState, action) {
@@ -63,6 +64,16 @@ export function ui(state = initialState, action) {
       return {
         ...state,
         bubbleType: action.payload,
+      };
+    case 'LOGIN/FAILED':
+      return {
+        ...state,
+        showAuthError: true,
+      };
+    case 'LOGIN/FETCH':
+      return {
+        ...state,
+        showAuthError: false,
       };
     default:
       return state;
