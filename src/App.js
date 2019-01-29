@@ -3,6 +3,7 @@ import moment from 'moment';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { AnimatedSwitch } from 'react-router-transition';
 import { createGlobalStyle } from 'styled-components';
+import { connect } from 'react-redux';
 
 import config from './config';
 import TeaserPage from './containers/TeaserPage';
@@ -17,6 +18,7 @@ import Drinkmusic from './containers/DrinkmusicContainer';
 import Login from './containers/LoginContainer';
 import Bubble from './components/Bubble';
 
+import * as authActions from './actions/auth';
 import { isAuthenticated } from './util/authUtils';
 
 const GlobalStyle = createGlobalStyle`
@@ -76,6 +78,9 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 class App extends Component {
+  componentDidMount() {
+    this.props.loginInit();
+  }
   render() {
     const isStarted = moment().isAfter(config.eventDate);
 
@@ -113,4 +118,15 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  ui: state.ui,
+});
+
+const mapDispatchToProps = {
+  ...authActions,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
