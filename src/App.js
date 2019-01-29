@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { AnimatedSwitch } from 'react-router-transition';
 import { createGlobalStyle } from 'styled-components';
+import { connect } from 'react-redux';
 
 import config from './config';
 import TeaserPage from './containers/TeaserPage';
@@ -13,7 +15,11 @@ import SoundBoard from './containers/SoundboardContainer';
 import Instructions from './containers/InstructionsContainer';
 import Settings from './containers/SettingsContainer';
 import Drinkmusic from './containers/DrinkmusicContainer';
+import Login from './containers/LoginContainer';
 import Bubble from './components/Bubble';
+
+import * as authActions from './actions/auth';
+import { isAuthenticated } from './util/authUtils';
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Fjalla+One|Noto+Sans:400,700');
@@ -72,6 +78,9 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 class App extends Component {
+  componentDidMount() {
+    this.props.loginInit();
+  }
   render() {
     const isStarted = moment().isAfter(config.eventDate);
 
@@ -81,16 +90,25 @@ class App extends Component {
         <Router>
           <React.Fragment>
             <Route path="/" component={isStarted ? Header : TeaserPage} />
-            {isStarted && (
-              <Switch>
-                <Route exact path="/" component={Apps} />
-                <Route path="/instructions" component={Instructions} />
-                <Route path="/settings" component={Settings} />
-                <Route path="/bingo" component={Bingo} />
-                <Route path="/cardgame" component={CardGame} />
-                <Route path="/soundboard" component={SoundBoard} />
-                <Route path="/drinkmusic" component={Drinkmusic} />
-              </Switch>
+            {isAuthenticated() ? (
+              isStarted && (
+                <AnimatedSwitch
+                  atEnter={{ opacity: 0 }}
+                  atLeave={{ opacity: 0 }}
+                  atActive={{ opacity: 1 }}
+                  className="switch-wrapper"
+                >
+                  <Route exact path="/" component={Apps} />
+                  <Route path="/instructions" component={Instructions} />
+                  <Route path="/settings" component={Settings} />
+                  <Route path="/bingo" component={Bingo} />
+                  <Route path="/cardgame" component={CardGame} />
+                  <Route path="/soundboard" component={SoundBoard} />
+                  <Route path="/drinkmusic" component={Drinkmusic} />
+                </AnimatedSwitch>
+              )
+            ) : (
+              <Login />
             )}
           </React.Fragment>
         </Router>
@@ -100,4 +118,15 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  ui: state.ui,
+});
+
+const mapDispatchToProps = {
+  ...authActions,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
