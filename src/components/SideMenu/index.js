@@ -74,7 +74,6 @@ SideMenu.propTypes = {
   onToggleSidepanel: PropTypes.func.isRequired,
   onOpenSidePanel: PropTypes.func.isRequired,
   onCloseSidePanel: PropTypes.func.isRequired,
-  onLogout: PropTypes.func.isRequired,
 };
 
 export default SideMenu;

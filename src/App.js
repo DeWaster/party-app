@@ -16,6 +16,8 @@ import Instructions from './containers/InstructionsContainer';
 import Settings from './containers/SettingsContainer';
 import Drinkmusic from './containers/DrinkmusicContainer';
 import Login from './containers/LoginContainer';
+import Gallery from './containers/GalleryContainer';
+import Photo from './containers/PhotoContainer';
 import Bubble from './components/Bubble';
 
 import * as authActions from './actions/auth';
@@ -78,9 +80,6 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 class App extends Component {
-  componentDidMount() {
-    this.props.loginInit();
-  }
   render() {
     const isStarted = moment().isAfter(config.eventDate);
 
@@ -105,6 +104,8 @@ class App extends Component {
                   <Route path="/cardgame" component={CardGame} />
                   <Route path="/soundboard" component={SoundBoard} />
                   <Route path="/drinkmusic" component={Drinkmusic} />
+                  <Route path="/gallery" component={Gallery} />
+                  <Route path="/photo/:sharecode" component={Photo} />
                 </AnimatedSwitch>
               )
             ) : (
@@ -118,15 +119,4 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  ui: state.ui,
-});
-
-const mapDispatchToProps = {
-  ...authActions,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default App;
