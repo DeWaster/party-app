@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
 import * as uiActions from '../actions/ui';
-import * as apiActions from '../actions/api';
+import * as apiActions from '../actions/auth';
 
 const Wrapper = styled.div`
   display: flex;

@@ -78,9 +78,6 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 class App extends Component {
-  componentDidMount() {
-    this.props.loginInit();
-  }
   render() {
     const isStarted = moment().isAfter(config.eventDate);
 
@@ -118,15 +115,4 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  ui: state.ui,
-});
-
-const mapDispatchToProps = {
-  ...authActions,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default App;
